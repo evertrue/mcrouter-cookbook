@@ -19,9 +19,9 @@
 require 'spec_helper'
 
 describe 'mcrouter::default' do
-  context 'When all attributes are default, on an unspecified platform' do
+  context 'when all attributes are default, on Ubuntu 14.04,' do
     let(:chef_run) do
-      runner = ChefSpec::ServerRunner.new
+      runner = ChefSpec::SoloRunner.new platform: 'ubuntu', version: '14.04'
       runner.converge(described_recipe)
     end
 
