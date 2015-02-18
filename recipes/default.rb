@@ -58,4 +58,31 @@ end
   execute "update-alternatives --install /usr/bin/#{name} #{name} /usr/bin/#{name}-#{ver} 50"
 end
 
+git '/opt/mcrouter' do
+  repository 'https://github.com/facebook/mcrouter.git'
+  action :checkout
+end
+
 include_recipe 'mcrouter::folly'
+
+execute 'autoreconf_mcrouter' do
+  command 'autoreconf --install'
+  cwd '/opt/mcrouter/mcrouter'
+  creates '/opt/mcrouter/mcrouter/build-aux'
+end
+
+execute 'install_mcrouter' do
+  command 'LD_LIBRARY_PATH="/opt/mcrouter/install/lib:$LD_LIBRARY_PATH" ' \
+      'LD_RUN_PATH="/opt/mcrouter/pkgs/folly/folly/test/.libs:/opt/mcrouter/install/lib" ' \
+      'LDFLAGS="-L/opt/mcrouter/pkgs/folly/folly/test/.libs -L/opt/mcrouter/install/lib" ' \
+      'CPPFLAGS="-I/opt/mcrouter/pkgs/folly/folly/test/gtest-1.6.0/include -I/opt/mcrouter/install/include ' \
+      '-I/opt/mcrouter/pkgs/folly -I/opt/mcrouter/pkgs/double-conversion" ' \
+      './configure --prefix="/opt/mcrouter/install" && ' \
+      'make && make install'
+  cwd '/opt/mcrouter/mcrouter'
+  creates '/opt/mcrouter/install/bin/mcrouter'
+end
+
+link '/usr/local/bin/mcrouter' do
+  to '/opt/mcrouter/install/bin/mcrouter'
+end
