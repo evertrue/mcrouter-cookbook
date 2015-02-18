@@ -1,12 +1,9 @@
 require 'spec_helper'
 
 describe 'mcrouter::default' do
-
-  # Serverspec examples can be found at
-  # http://serverspec.org/resource_types.html
-  
-  it 'does something' do
-    skip 'Replace this with meaningful tests'
+  context 'installs mcrouter to the $PATH' do
+    describe command('which mcrouter') do
+      its(:stdout) { is_expected.to match(%r{/usr/local/bin/mcrouter}) }
+    end
   end
-
 end
