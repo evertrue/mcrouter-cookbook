@@ -17,12 +17,30 @@ Install [mcrouter](https://github.com/facebook/mcrouter) and its dependencies, a
 
 ## default
 
-1. Sets up & updates apt
-2. Installs git
-3. Installs the necessary dependencies for mcrouter:
-    * various packages, including gcc & g++
-    * [`folly`](https://github.com/facebook/folly), a C++ lib Facebook developed
-4. Installs `mcrouter`, and symlinks it to to `/usr/local/bin`
+Wraps it all up with a nice bow.
+
+1. Set up & updates apt using `apt::default`
+2. Install git using `git::default`
+3. Include various recipes for this cookbook:
+    * `mcrouter::install`
+        - which includes `mcrouter::folloy`
+    * `mcrouter::configure`
+
+## install
+
+Handle the installation of mcrouter & its dependencies.
+
+## folly
+
+Handle the installation of [`folly`](https://github.com/facebook/folly), a C++ lib Facebook developed.
+
+## configure
+
+Configure mcrouter.
+
+## service
+
+Set up, enable, and start services for mcrouter.
 
 # Author
 
