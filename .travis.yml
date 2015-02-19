@@ -7,3 +7,6 @@ before_script:
 - bundle exec berks
 script:
 - bundle exec rake travis
+notifications:
+  slack:
+    secure: iZxnXG69lc2ud7VGcvA/wsbh/hTKVDCNLZuv2orKz9sp01a/auxkROHsR1W+reXKSqHfihzFCI5z0et6IMkc9DRUKcyVH65z9D0AIqY4ateSO2KqaGJsniksiksXJp8auDc+3wKC4QUIQ0DDtGyQpwcNAPerznp6k5zpkc8hV+8=
