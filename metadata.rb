@@ -10,3 +10,4 @@ supports 'ubuntu', '= 14.04'
 
 depends 'apt'
 depends 'git'
+depends 'magic', '~> 1.0'

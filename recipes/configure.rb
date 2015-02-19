@@ -16,9 +16,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# TODO: Convert Ruby hash attribute to JSON config
-cookbook_file '/etc/mcouter/mcrouter.json' do
-  source 'source'
+directory '/etc/mcrouter' do
+  owner 'mcrouter'
+  group 'mcrouter'
+end
+
+file '/etc/mcrouter/mcrouter.json' do
+  content json_config(node['mcrouter']['config'])
   owner 'mcrouter'
   group 'mcrouter'
 end

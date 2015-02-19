@@ -28,5 +28,19 @@ describe 'mcrouter::configure' do
     before do
       stub_commands
     end
+
+    it 'creates /etc/mcrouter' do
+      expect(chef_run).to create_directory('/etc/mcrouter').with(
+        owner: 'mcrouter',
+        group: 'mcrouter'
+      )
+    end
+
+    it 'configures mcrouter' do
+      expect(chef_run).to create_file('/etc/mcrouter/mcrouter.json').with(
+        owner: 'mcrouter',
+        group: 'mcrouter'
+      )
+    end
   end
 end

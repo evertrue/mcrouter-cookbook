@@ -83,3 +83,8 @@ end
 link '/usr/local/bin/mcrouter' do
   to '/opt/mcrouter/install/bin/mcrouter'
 end
+
+user 'mcrouter' do
+  system true
+  shell '/bin/false'
+end

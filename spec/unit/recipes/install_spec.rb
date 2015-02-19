@@ -110,5 +110,12 @@ describe 'mcrouter::install' do
         to: '/opt/mcrouter/install/bin/mcrouter'
       )
     end
+
+    it 'creates a mcrouter user' do
+      expect(chef_run).to create_user('mcrouter').with(
+        system: true,
+        shell: '/bin/false'
+      )
+    end
   end
 end
