@@ -19,11 +19,14 @@ task style: ['style:chef', 'style:ruby']
 desc 'Run ChefSpec unit tests'
 RSpec::Core::RakeTask.new(:unit)
 
-# desc 'Run Test Kitchen integration tests'
-# task :integration do
-#   require 'kitchen/rake_tasks'
-#   Kitchen::RakeTasks.new
-# end
+desc 'Run Test Kitchen integration tests'
+task :integration do
+  require 'kitchen/rake_tasks'
+  Kitchen.logger = Kitchen.default_file_logger
+  Kitchen::Config.new.instances.each do |instance|
+    instance.test(:always)
+  end
+end
 
 desc 'Run style & unit tests on Travis'
 task travis: %w(style unit)
