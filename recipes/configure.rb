@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: mcrouter
-# Recipe:: default
+# Recipe:: configure
 #
 # Copyright 2015 EverTrue, Inc.
 #
@@ -16,7 +16,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe 'apt::default'
-include_recipe 'git::default'
-include_recipe 'mcrouter::install'
-include_recipe 'mcrouter::configure'
+# TODO: Convert Ruby hash attribute to JSON config
+cookbook_file '/etc/mcouter/mcrouter.json' do
+  source 'source'
+  owner 'mcrouter'
+  group 'mcrouter'
+end

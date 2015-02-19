@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: mcrouter
-# Recipe:: default
+# Spec:: configure
 #
 # Copyright 2015 EverTrue, Inc.
 #
@@ -16,7 +16,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe 'apt::default'
-include_recipe 'git::default'
-include_recipe 'mcrouter::install'
-include_recipe 'mcrouter::configure'
+require 'spec_helper'
+
+describe 'mcrouter::configure' do
+  context 'when all attributes are default, on Ubuntu 14.04,' do
+    let(:chef_run) do
+      runner = ChefSpec::SoloRunner.new
+      runner.converge(described_recipe)
+    end
+
+    before do
+      stub_commands
+    end
+  end
+end
