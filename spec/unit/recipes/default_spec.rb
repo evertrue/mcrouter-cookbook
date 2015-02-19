@@ -21,12 +21,12 @@ require 'spec_helper'
 describe 'mcrouter::default' do
   context 'when all attributes are default, on Ubuntu 14.04,' do
     let(:chef_run) do
-      runner = ChefSpec::SoloRunner.new platform: 'ubuntu', version: '14.04'
+      runner = ChefSpec::SoloRunner.new
       runner.converge(described_recipe)
     end
 
     before do
-      stub_command('test -d /usr/include/double-conversion').and_return true
+      stub_commands
     end
 
     it 'ensures apt is up-to-date' do
