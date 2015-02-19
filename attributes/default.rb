@@ -5,7 +5,6 @@ default['mcrouter']['config'] = {
         '10.0.111.182:11811',
         '10.0.111.155:11811'
       ],
-      'protocol' => 'ascii',
       'keep-routing_prefix' => 'true'
     },
     'C' => {
@@ -13,14 +12,12 @@ default['mcrouter']['config'] = {
         '10.0.112.176:11811',
         '10.0.112.15:11811'
       ],
-      'protocol' => 'ascii',
       'keep-routing_prefix' => 'true'
     },
     'D' => {
       'servers' => [
         '10.0.113.230:11811'
       ],
-      'protocol' => 'ascii',
       'keep-routing_prefix' => 'true'
     }
   },

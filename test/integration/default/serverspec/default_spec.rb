@@ -14,21 +14,21 @@ describe 'mcrouter::default' do
         it do
           is_expected.to(
             match(
-              /"B": \{\s+"servers": \[\s+"10.0.111.182:11811",\s+"10.0.111.155:11811"\s+\],\s+"protocol": "ascii",\s+"keep-routing_prefix": "true"\s+\}/)
+              /"B": \{\s+"servers": \[\s+"10.0.111.182:11811",\s+"10.0.111.155:11811"\s+\],\s+"keep-routing_prefix": "true"\s+\}/)
           )
         end
 
         it do
           is_expected.to(
             match(
-              /"C": \{\s+"servers": \[\s+"10.0.112.176:11811",\s+"10.0.112.15:11811"\s+\],\s+"protocol": "ascii",\s+"keep-routing_prefix": "true"\s+\}/)
+              /"C": \{\s+"servers": \[\s+"10.0.112.176:11811",\s+"10.0.112.15:11811"\s+\],\s+"keep-routing_prefix": "true"\s+\}/)
           )
         end
 
         it do
           is_expected.to(
             match(
-              /"C": \{\s+"servers": \[\s+"10.0.112.176:11811",\s+"10.0.112.15:11811"\s+\],\s+"protocol": "ascii",\s+"keep-routing_prefix": "true"\s+\}/
+              /"C": \{\s+"servers": \[\s+"10.0.112.176:11811",\s+"10.0.112.15:11811"\s+\],\s+"keep-routing_prefix": "true"\s+\}/
             )
           )
         end
@@ -36,7 +36,7 @@ describe 'mcrouter::default' do
         it do
           is_expected.to(
             match(
-              /"D": \{\s+"servers": \[\s+"10.0.113.230:11811"\s+\],\s+"protocol": "ascii",\s+"keep-routing_prefix": "true"\s+\}/
+              /"D": \{\s+"servers": \[\s+"10.0.113.230:11811"\s+\],\s+"keep-routing_prefix": "true"\s+\}/
             )
           )
         end
