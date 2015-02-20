@@ -84,7 +84,7 @@ link '/usr/local/bin/mcrouter' do
   to '/opt/mcrouter/install/bin/mcrouter'
 end
 
-user 'mcrouter' do
+user node['mcrouter']['user'] do
   system true
   shell '/bin/false'
 end

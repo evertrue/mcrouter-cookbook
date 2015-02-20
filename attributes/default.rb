@@ -1,3 +1,5 @@
+default['mcrouter']['user'] = 'mcrouter'
+
 default['mcrouter']['config']['pools'] = {
   'B' => {
     'servers' => [
