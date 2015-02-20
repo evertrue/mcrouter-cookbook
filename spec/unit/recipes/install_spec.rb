@@ -99,7 +99,7 @@ describe 'mcrouter::install' do
           'CPPFLAGS="-I/opt/folly/folly/test/gtest-1.6.0/include ' \
           '-I/opt/mcrouter/install/include ' \
           '-I/opt/folly ' \
-          '-I/opt/mcrouter/pkgs/double-conversion" ' \
+          '-I/opt/double-conversion" ' \
           './configure --prefix="/opt/mcrouter/install" && ' \
           'make && make install',
         cwd: '/opt/mcrouter/mcrouter',

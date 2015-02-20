@@ -76,7 +76,7 @@ execute 'install_mcrouter' do
     %(CPPFLAGS="-I/opt/folly/folly/test/gtest-1.6.0/include ) +
     %(-I#{node['mcrouter']['install_dir']}/include ) +
     '-I/opt/folly ' \
-    '-I/opt/mcrouter/pkgs/double-conversion" ' +
+    '-I/opt/double-conversion" ' +
     %(./configure --prefix="#{node['mcrouter']['install_dir']}" && ) +
     'make && make install'
   cwd "#{node['mcrouter']['src_dir']}/mcrouter"
