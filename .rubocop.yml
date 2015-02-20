@@ -2,6 +2,7 @@ AllCops:
   Exclude:
     - .kitchen/**/*
     - test/**/*
+    - vendor/**/*
 
 # The default 79 character limit is sometimes unproductive.
 LineLength:
