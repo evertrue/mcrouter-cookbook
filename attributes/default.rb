@@ -1,4 +1,8 @@
+default['mcrouter']['src_dir'] = '/opt/mcrouter'
+default['mcrouter']['install_dir'] = "#{node['mcrouter']['src_dir']}/install"
 default['mcrouter']['user'] = 'mcrouter'
+
+default['folly']['src_dir'] = '/opt/folly'
 
 default['mcrouter']['config']['pools'] = {
   'B' => {

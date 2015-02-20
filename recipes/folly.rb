@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-git '/opt/folly' do
+git node['folly']['src_dir'] do
   repository 'https://github.com/facebook/folly.git'
   action :checkout
 end
@@ -33,25 +33,25 @@ link '/opt/double-conversion/double-conversion' do
   action :nothing
 end
 
-remote_file '/opt/folly/folly/test/gtest-1.6.0.zip' do
+remote_file "#{node['folly']['src_dir']}/folly/test/gtest-1.6.0.zip" do
   source 'http://googletest.googlecode.com/files/gtest-1.6.0.zip'
 end
 
 execute 'unzip gtest-1.6.0.zip' do
-  cwd '/opt/folly/folly/test'
-  creates '/opt/folly/folly/test/gtest-1.6.0'
+  cwd "#{node['folly']['src_dir']}/folly/test"
+  creates "#{node['folly']['src_dir']}/folly/test/gtest-1.6.0"
 end
 
 execute 'autoreconf_folly' do
   command 'autoreconf --install'
-  cwd '/opt/folly/folly'
-  creates '/opt/folly/folly/build-aux'
+  cwd "#{node['folly']['src_dir']}/folly"
+  creates "#{node['folly']['src_dir']}/folly/build-aux"
 end
 
 execute 'install_folly' do
-  command 'LD_LIBRARY_PATH="/opt/mcrouter/install/lib:$LD_LIBRARY_PATH" ' \
-    'LD_RUN_PATH="/opt/mcrouter/install/lib" ' \
-    './configure --prefix="/opt/mcrouter/install" && make && make install'
-  cwd '/opt/folly/folly'
-  creates '/opt/mcrouter/install/lib'
+  command %(LD_LIBRARY_PATH="#{node['mcrouter']['install_dir']}/lib:$LD_LIBRARY_PATH" ) +
+    %(LD_RUN_PATH="#{node['mcrouter']['install_dir']}/lib" ) +
+    %(./configure --prefix="#{node['mcrouter']['install_dir']}" && make && make install)
+  cwd "#{node['folly']['src_dir']}/folly"
+  creates "#{node['mcrouter']['install_dir']}/lib"
 end

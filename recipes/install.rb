@@ -55,7 +55,7 @@ end
   execute "update-alternatives --install /usr/bin/#{name} #{name} /usr/bin/#{name}-#{ver} 50"
 end
 
-git '/opt/mcrouter' do
+git node['mcrouter']['src_dir'] do
   repository 'https://github.com/facebook/mcrouter.git'
   action :checkout
 end
@@ -64,26 +64,27 @@ include_recipe 'mcrouter::folly'
 
 execute 'autoreconf_mcrouter' do
   command 'autoreconf --install'
-  cwd '/opt/mcrouter/mcrouter'
-  creates '/opt/mcrouter/mcrouter/build-aux'
+  cwd "#{node['mcrouter']['src_dir']}/mcrouter"
+  creates "#{node['mcrouter']['src_dir']}/mcrouter/build-aux"
 end
 
 execute 'install_mcrouter' do
-  command 'LD_LIBRARY_PATH="/opt/mcrouter/install/lib:$LD_LIBRARY_PATH" ' \
-      'LD_RUN_PATH="/opt/folly/folly/test/.libs:/opt/mcrouter/install/lib" ' \
-      'LDFLAGS="-L/opt/folly/folly/test/.libs -L/opt/mcrouter/install/lib" ' \
-      'CPPFLAGS="-I/opt/folly/folly/test/gtest-1.6.0/include ' \
-      '-I/opt/mcrouter/install/include ' \
-      '-I/opt/folly ' \
-      '-I/opt/mcrouter/pkgs/double-conversion" ' \
-      './configure --prefix="/opt/mcrouter/install" && ' \
-      'make && make install'
-  cwd '/opt/mcrouter/mcrouter'
-  creates '/opt/mcrouter/install/bin/mcrouter'
+  command %(LD_LIBRARY_PATH="#{node['mcrouter']['install_dir']}/lib:$LD_LIBRARY_PATH" ) +
+    %(LD_RUN_PATH="/opt/folly/folly/test/.libs:#{node['mcrouter']['install_dir']}/lib" ) +
+    %(LDFLAGS="-L/opt/folly/folly/test/.libs ) +
+    %(-L#{node['mcrouter']['install_dir']}/lib" ) +
+    %(CPPFLAGS="-I/opt/folly/folly/test/gtest-1.6.0/include ) +
+    %(-I#{node['mcrouter']['install_dir']}/include ) +
+    '-I/opt/folly ' \
+    '-I/opt/mcrouter/pkgs/double-conversion" ' +
+    %(./configure --prefix="#{node['mcrouter']['install_dir']}" && ) +
+    'make && make install'
+  cwd "#{node['mcrouter']['src_dir']}/mcrouter"
+  creates "#{node['mcrouter']['install_dir']}/bin/mcrouter"
 end
 
 link '/usr/local/bin/mcrouter' do
-  to '/opt/mcrouter/install/bin/mcrouter'
+  to "#{node['mcrouter']['install_dir']}/bin/mcrouter"
 end
 
 user node['mcrouter']['user'] do
