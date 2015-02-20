@@ -94,10 +94,12 @@ describe 'mcrouter::install' do
     it 'configures, makes and installs mcrouter' do
       expect(chef_run).to run_execute('install_mcrouter').with(
         command: 'LD_LIBRARY_PATH="/opt/mcrouter/install/lib:$LD_LIBRARY_PATH" ' \
-          'LD_RUN_PATH="/opt/mcrouter/pkgs/folly/folly/test/.libs:/opt/mcrouter/install/lib" ' \
-          'LDFLAGS="-L/opt/mcrouter/pkgs/folly/folly/test/.libs -L/opt/mcrouter/install/lib" ' \
-          'CPPFLAGS="-I/opt/mcrouter/pkgs/folly/folly/test/gtest-1.6.0/include -I/opt/mcrouter/install/include ' \
-          '-I/opt/mcrouter/pkgs/folly -I/opt/mcrouter/pkgs/double-conversion" ' \
+          'LD_RUN_PATH="/opt/folly/folly/test/.libs:/opt/mcrouter/install/lib" ' \
+          'LDFLAGS="-L/opt/folly/folly/test/.libs -L/opt/mcrouter/install/lib" ' \
+          'CPPFLAGS="-I/opt/folly/folly/test/gtest-1.6.0/include ' \
+          '-I/opt/mcrouter/install/include ' \
+          '-I/opt/folly ' \
+          '-I/opt/mcrouter/pkgs/double-conversion" ' \
           './configure --prefix="/opt/mcrouter/install" && ' \
           'make && make install',
         cwd: '/opt/mcrouter/mcrouter',
