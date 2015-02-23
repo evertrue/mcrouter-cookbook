@@ -16,9 +16,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-directory '/etc/mcrouter' do
-  owner 'mcrouter'
-  group 'mcrouter'
+%w(
+  /etc/mcrouter
+  /var/run/mcrouter
+  /mnt/mcrouter
+  /mnt/mcrouter/log
+  /mnt/mcrouter/spool
+  /mnt/mcrouter/stats
+).each do |dir|
+  directory dir do
+    owner 'mcrouter'
+    group 'mcrouter'
+  end
 end
 
 file '/etc/mcrouter/mcrouter.json' do
