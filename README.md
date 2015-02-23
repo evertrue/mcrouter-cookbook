@@ -4,10 +4,13 @@
 
 Install [mcrouter](https://github.com/facebook/mcrouter) and its dependencies, and provide mechanisms to configure and start mcrouter.
 
+This cookbook can, optionally, install a copy of memcached to use locally. This can be disabled by setting `node['mcrouter']['local_memcached']` to false.
+
 # Requirements
 
 * `apt` cookbook
 * `git` cookbook
+* `memcached` cookbook
 
 # Usage
 

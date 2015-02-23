@@ -14,37 +14,7 @@ describe 'mcrouter::default' do
         it do
           is_expected.to(
             match(
-              /"B": \{\s+"servers": \[\s+"10.0.111.182:11811",\s+"10.0.111.155:11811"\s+\],\s+"keep-routing_prefix": "true"\s+\}/)
-          )
-        end
-
-        it do
-          is_expected.to(
-            match(
-              /"C": \{\s+"servers": \[\s+"10.0.112.176:11811",\s+"10.0.112.15:11811"\s+\],\s+"keep-routing_prefix": "true"\s+\}/)
-          )
-        end
-
-        it do
-          is_expected.to(
-            match(
-              /"C": \{\s+"servers": \[\s+"10.0.112.176:11811",\s+"10.0.112.15:11811"\s+\],\s+"keep-routing_prefix": "true"\s+\}/
-            )
-          )
-        end
-
-        it do
-          is_expected.to(
-            match(
-              /"D": \{\s+"servers": \[\s+"10.0.113.230:11811"\s+\],\s+"keep-routing_prefix": "true"\s+\}/
-            )
-          )
-        end
-
-        it do
-          is_expected.to(
-            match(
-              /"named_handles": \[\s+\{\s+"type": "PoolRoute",\s+"name": "zoneB",\s+"pool": "B"\s+\},\s+\{\s+"type": "PoolRoute",\s+"name": "zoneC",\s+"pool": "C"\s+\},\s+{\s+"type": "PoolRoute",\s+"name": "zoneD",\s+"pool": "D"\s+\}\s+\]/
+              /\{"pools": \{\s+"A": \{"servers": \["localhost:11811"\]\}\},\s+"route": "PoolRoute|A"}/
             )
           )
         end

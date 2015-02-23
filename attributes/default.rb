@@ -4,60 +4,17 @@ default['mcrouter']['user'] = 'mcrouter'
 
 default['folly']['src_dir'] = '/opt/folly'
 
-default['mcrouter']['config']['pools'] = {
-  'B' => {
-    'servers' => [
-      '10.0.111.182:11811',
-      '10.0.111.155:11811'
-    ],
-    'keep-routing_prefix' => 'true'
+default['mcrouter']['local_memcached'] = true
+set['memcached']['port'] = 11_811
+set['memcached']['udp_port'] = 11_811
+
+default['mcrouter']['config'] = {
+  'pools' => {
+    'A' => {
+      'servers' => [
+        'localhost:11811'
+      ]
+    }
   },
-  'C' => {
-    'servers' => [
-      '10.0.112.176:11811',
-      '10.0.112.15:11811'
-    ],
-    'keep-routing_prefix' => 'true'
-  },
-  'D' => {
-    'servers' => [
-      '10.0.113.230:11811'
-    ],
-    'keep-routing_prefix' => 'true'
-  }
+  'route' => 'PoolRoute|A'
 }
-default['mcrouter']['config']['named_handles'] = [
-  { 'type' => 'PoolRoute', 'name' => 'zoneB', 'pool' => 'B' },
-  { 'type' => 'PoolRoute', 'name' => 'zoneC', 'pool' => 'C' },
-  { 'type' => 'PoolRoute', 'name' => 'zoneD', 'pool' => 'D' }
-]
-default['mcrouter']['config']['routes'] = [
-  {
-    'aliases' => ['/dc1/all/', '/dc1/ALL/', '/DC1/all', '/DC1/ALL'],
-    'route' => {
-      'type' => 'AllFastestRoute',
-      'children' => %w(zoneB zoneC zoneD)
-    }
-  },
-  {
-    'aliases' => ['/dc1/b/', '/dc1/B/', '/DC1/b/', '/DC1/B/'],
-    'route' => {
-      'type' => 'AllFastestRoute',
-      'children' => %w(zoneB zoneC zoneD)
-    }
-  },
-  {
-    'aliases' => ['/dc1/c/', '/dc1/C/', '/DC1/c/', '/DC1/C/'],
-    'route' => {
-      'type' => 'AllFastestRoute',
-      'children' => %w(zoneC zoneD zoneB)
-    }
-  },
-  {
-    'aliases' => ['/dc1/d/', '/dc1/D/', '/DC1/d/', '/DC1/D/'],
-    'route' => {
-      'type' => 'AllFastestRoute',
-      'children' => %w(zoneD zoneB zoneC)
-    }
-  }
-]
