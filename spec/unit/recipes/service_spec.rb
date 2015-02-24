@@ -28,5 +28,16 @@ describe 'mcrouter::service' do
     before do
       stub_commands
     end
+
+    it 'installs an Upstart service script' do
+      expect(chef_run).to create_template '/etc/init/mcrouter.conf'
+    end
+
+    it 'enables and starts the mcrouter Upstart service' do
+      expect(chef_run).to enable_service('mcrouter').with(
+        supports: { status: true, restart: true }
+      )
+      expect(chef_run).to start_service 'mcrouter'
+    end
   end
 end

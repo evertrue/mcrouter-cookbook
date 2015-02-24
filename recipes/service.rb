@@ -16,7 +16,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# TODO: Write a service script for Ubuntu 14.04
+template '/etc/init/mcrouter.conf'
+
 service 'mcrouter' do
   supports status: true, restart: true
   action [:start, :enable]
