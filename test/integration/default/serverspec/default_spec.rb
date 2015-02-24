@@ -14,7 +14,7 @@ describe 'mcrouter::default' do
         it do
           is_expected.to(
             match(
-              /\{"pools": \{\s+"A": \{"servers": \["localhost:11811"\]\}\},\s+"route": "PoolRoute|A"}/
+              /\{\s+"pools": \{\s+"A": \{\s+"servers": \[\s+"localhost:11811"\s+\]\s+\}\s+\},\s+"route": "PoolRoute\|A"\s+\}/
             )
           )
         end
