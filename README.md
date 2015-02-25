@@ -11,10 +11,19 @@ This cookbook can, optionally, install a copy of memcached to use locally. This 
 * `apt` cookbook
 * `git` cookbook
 * `memcached` cookbook
+* `magic` cookbook
 
 # Usage
 
 * Include `mcrouter::default` in your node’s run list.
+
+If you wish to customize any of the configuration for mcrouter, you will want to edit the two attributes used to populate the config file and the CLI arguments passed to `mcrouter` on service start:
+
+* `node['mcrouter']['cli_opts']`
+    - Do not overwrite this completely; the values specified already are required, instead, either:
+        + supply updated values for these in addition to your new options
+        + specify your particular CLI option: `set['mcrouter']['cli_opts']['async-dir']`
+* `node['mcrouter']['config']`
 
 # Recipes
 
