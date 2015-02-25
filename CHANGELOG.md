@@ -1,5 +1,15 @@
 # CHANGELOG for mcrouter
 
+## [v0.2.0] (2015-02-25)
+
+### Fixes:
+
+* Replace missed hard-coded ownership settings with `node['mcrouter']['user']`
+
+### Changes:
+
+* Switch from hard-coded CLI flags to an hash attribute-driven system, utilizing the [`magic` cookbook](https://github.com/sczizzo/magic-cookbook)
+
 ## [v0.1.0] (2015-02-24)
 
 ### Fixes:
@@ -24,5 +34,6 @@
 * Initial release:
     - Builds & installs mcrouter
 
+[v0.2.0]: https://github.com/evertrue/mcrouter-cookbook/compare/v0.1.0...v0.2.0
 [v0.1.0]: https://github.com/evertrue/mcrouter-cookbook/compare/v0.0.1...v0.1.0
 [v0.0.1]: https://github.com/evertrue/mcrouter-cookbook/compare/da547ce9...v0.0.1
