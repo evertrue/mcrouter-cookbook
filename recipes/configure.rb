@@ -25,13 +25,13 @@
   /mnt/mcrouter/stats
 ).each do |dir|
   directory dir do
-    owner 'mcrouter'
-    group 'mcrouter'
+    owner node['mcrouter']['user']
+    group node['mcrouter']['user']
   end
 end
 
 file '/etc/mcrouter/mcrouter.json' do
   content json_config(node['mcrouter']['config'])
-  owner 'mcrouter'
-  group 'mcrouter'
+  owner node['mcrouter']['user']
+  group node['mcrouter']['user']
 end
