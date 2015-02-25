@@ -16,7 +16,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-template '/etc/init/mcrouter.conf'
+template '/etc/init/mcrouter.conf' do
+  variables(
+    cli_opts: shell_opts(node['mcrouter']['cli_opts'])
+  )
+end
 
 service 'mcrouter' do
   supports status: true, restart: true

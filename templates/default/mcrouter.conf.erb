@@ -14,15 +14,5 @@ respawn
 setuid <%= node['mcrouter']['user'] %>
 
 script
-    PROG_ARGS="--async-dir=/mnt/mcrouter/spool"
-    PROG_ARGS="$PROG_ARGS --route-prefix=/dc1/all/"
-    PROG_ARGS="$PROG_ARGS --send-invalid-route-to-default"
-    PROG_ARGS="$PROG_ARGS --num-proxies=16"
-    PROG_ARGS="$PROG_ARGS --pid-file=/var/run/mcrouter/mcrouter.pid"
-    PROG_ARGS="$PROG_ARGS --stats-root=/mnt/mcrouter/stats"
-    PROG_ARGS="$PROG_ARGS --log-path=/mnt/mcrouter/log/mcrouter.log"
-    PROG_ARGS="$PROG_ARGS --port=11211"
-    PROG_ARGS="$PROG_ARGS --config-file=/etc/mcrouter/mcrouter.json"
-
-    exec /usr/local/bin/mcrouter $PROG_ARGS
+    exec /usr/local/bin/mcrouter <%= @cli_opts %>
 end script

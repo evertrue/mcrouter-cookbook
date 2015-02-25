@@ -8,6 +8,15 @@ default['mcrouter']['local_memcached'] = true
 set['memcached']['port'] = 11_811
 set['memcached']['udp_port'] = 11_811
 
+default['mcrouter']['cli_opts'] = {
+  'port'        => 11_211,
+  'config-file' => '/etc/mcrouter/mcrouter.json',
+  'async-dir'   => '/var/spool/mcrouter',
+  'log-path'    => '/var/log/mcrouter/mcrouter.log',
+  'pid-file'    => '/var/run/mcrouter/mcrouter.pid',
+  'stats-root'  => '/var/mcrouter/stats'
+}
+
 default['mcrouter']['config'] = {
   'pools' => {
     'A' => {

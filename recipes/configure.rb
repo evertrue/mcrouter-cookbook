@@ -16,21 +16,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-%w(
-  /etc/mcrouter
-  /var/run/mcrouter
-  /mnt/mcrouter
-  /mnt/mcrouter/log
-  /mnt/mcrouter/spool
-  /mnt/mcrouter/stats
-).each do |dir|
+cli_opts = node['mcrouter']['cli_opts']
+
+[
+  '/etc/mcrouter',
+  File.dirname(cli_opts['pid-file']),
+  File.dirname(cli_opts['log-path']),
+  cli_opts['async-dir'],
+  cli_opts['stats-root']
+].each do |dir|
   directory dir do
     owner node['mcrouter']['user']
     group node['mcrouter']['user']
+    recursive true
   end
 end
 
-file '/etc/mcrouter/mcrouter.json' do
+file cli_opts['config-file'] do
   content json_config(node['mcrouter']['config'])
   owner node['mcrouter']['user']
   group node['mcrouter']['user']

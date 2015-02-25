@@ -32,10 +32,9 @@ describe 'mcrouter::configure' do
     %w(
       /etc/mcrouter
       /var/run/mcrouter
-      /mnt/mcrouter
-      /mnt/mcrouter/log
-      /mnt/mcrouter/spool
-      /mnt/mcrouter/stats
+      /var/log/mcrouter
+      /var/spool/mcrouter
+      /var/mcrouter/stats
     ).each do |dir|
       it "creates #{dir}" do
         expect(chef_run).to create_directory(dir).with(
