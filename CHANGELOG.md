@@ -1,5 +1,11 @@
 # CHANGELOG for mcrouter
 
+## [v0.2.1] (2015-02-25)
+
+### Fixes:
+
+* Updated, clarified README
+
 ## [v0.2.0] (2015-02-25)
 
 ### Fixes:
@@ -34,6 +40,7 @@
 * Initial release:
     - Builds & installs mcrouter
 
+[v0.2.1]: https://github.com/evertrue/mcrouter-cookbook/compare/v0.2.0...v0.2.1
 [v0.2.0]: https://github.com/evertrue/mcrouter-cookbook/compare/v0.1.0...v0.2.0
 [v0.1.0]: https://github.com/evertrue/mcrouter-cookbook/compare/v0.0.1...v0.1.0
 [v0.0.1]: https://github.com/evertrue/mcrouter-cookbook/compare/da547ce9...v0.0.1
