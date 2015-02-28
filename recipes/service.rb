@@ -25,4 +25,5 @@ end
 service 'mcrouter' do
   supports status: true, restart: true
   action [:start, :enable]
+  subscribes :restart, 'template[/etc/init/mcrouter.conf]'
 end
