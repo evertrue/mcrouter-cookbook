@@ -1,5 +1,11 @@
 # CHANGELOG for mcrouter
 
+## [v0.2.2] (2015-02-28)
+
+### Fixes:
+
+* Subscribed `service[mcrouter]` to its own service script to restart on any changes to its CLI options
+
 ## [v0.2.1] (2015-02-25)
 
 ### Fixes:
