@@ -13,6 +13,4 @@ respawn
 
 setuid <%= node['mcrouter']['user'] %>
 
-script
-    exec /usr/local/bin/mcrouter <%= @cli_opts %>
-end script
+exec /usr/local/bin/mcrouter <%= @cli_opts %>
