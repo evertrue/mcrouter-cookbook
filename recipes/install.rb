@@ -60,8 +60,6 @@ git node['mcrouter']['src_dir'] do
   action :checkout
 end
 
-include_recipe 'mcrouter::folly'
-
 execute 'autoreconf_mcrouter' do
   command 'autoreconf --install'
   cwd "#{node['mcrouter']['src_dir']}/mcrouter"
