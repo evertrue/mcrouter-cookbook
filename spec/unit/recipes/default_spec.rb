@@ -33,8 +33,8 @@ describe 'mcrouter::default' do
       expect(chef_run).to include_recipe 'apt::default'
     end
 
-    it 'installs git' do
-      expect(chef_run).to include_recipe 'git::default'
+    it 'includes ark' do
+      expect(chef_run).to include_recipe 'ark::default'
     end
 
     it 'installs and starts memcached' do

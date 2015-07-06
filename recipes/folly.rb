@@ -16,42 +16,67 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-git node['folly']['src_dir'] do
-  repository 'https://github.com/facebook/folly.git'
-  action :checkout
+%w(
+  g++
+  automake
+  autoconf
+  autoconf-archive
+  libtool
+  libboost-all-dev
+  libevent-dev
+  libdouble-conversion-dev
+  libgoogle-glog-dev
+  libgflags-dev
+  liblz4-dev
+  liblzma-dev
+  libsnappy-dev
+  make
+  zlib1g-dev
+  binutils-dev
+  libjemalloc-dev
+  libssl-dev
+  libiberty-dev
+).each do |pkg|
+  package pkg
 end
 
-git '/opt/double-conversion' do
-  repository 'https://github.com/floitsch/double-conversion.git'
-  action :checkout
-  not_if 'test -d /usr/include/double-conversion'
-  notifies :create, 'link[/opt/double-conversion/double-conversion]', :immediately
+ark 'folly' do
+  url 'https://github.com/facebook/folly/archive/v0.47.0.zip'
+  path '/opt'
+  action :put
 end
 
-link '/opt/double-conversion/double-conversion' do
-  to '/opt/double-conversion/src'
-  action :nothing
-end
+folly_dir = "#{node['folly']['src_dir']}/folly"
 
-remote_file "#{node['folly']['src_dir']}/folly/test/gtest-1.6.0.zip" do
-  source 'http://googletest.googlecode.com/files/gtest-1.6.0.zip'
-end
-
-execute 'unzip gtest-1.6.0.zip' do
-  cwd "#{node['folly']['src_dir']}/folly/test"
-  creates "#{node['folly']['src_dir']}/folly/test/gtest-1.6.0"
+ark 'gtest' do
+  url 'http://googletest.googlecode.com/files/gtest-1.7.0.zip'
+  path "#{folly_dir}/test"
+  action :put
 end
 
 execute 'autoreconf_folly' do
-  command 'autoreconf --install'
-  cwd "#{node['folly']['src_dir']}/folly"
-  creates "#{node['folly']['src_dir']}/folly/build-aux"
+  command 'autoreconf -ivf'
+  cwd folly_dir
+  creates "#{folly_dir}/build-aux"
+end
+
+execute 'configure_folly' do
+  command './configure'
+  cwd folly_dir
+end
+
+execute 'make_folly' do
+  command 'make'
+  cwd folly_dir
+end
+
+execute 'check_folly' do
+  command 'make check'
+  cwd folly_dir
 end
 
 execute 'install_folly' do
-  command %(LD_LIBRARY_PATH="#{node['mcrouter']['install_dir']}/lib:$LD_LIBRARY_PATH" ) +
-    %(LD_RUN_PATH="#{node['mcrouter']['install_dir']}/lib" ) +
-    %(./configure --prefix="#{node['mcrouter']['install_dir']}" && make && make install)
-  cwd "#{node['folly']['src_dir']}/folly"
-  creates "#{node['mcrouter']['install_dir']}/lib"
+  command 'make install'
+  cwd folly_dir
+  creates '/usr/local/lib/libfolly.so'
 end
