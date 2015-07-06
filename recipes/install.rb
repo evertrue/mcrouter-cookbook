@@ -28,7 +28,6 @@
   libboost-context1.54-dev
   ragel
   autoconf
-  unzip
   libtool
   python-dev
   cmake
@@ -48,16 +47,10 @@
   package pkg
 end
 
-{
-  'gcc' => '4.8',
-  'g++' => '4.8'
-}.each do |name, ver|
-  execute "update-alternatives --install /usr/bin/#{name} #{name} /usr/bin/#{name}-#{ver} 50"
-end
-
-git node['mcrouter']['src_dir'] do
-  repository 'https://github.com/facebook/mcrouter.git'
-  action :checkout
+ark 'mcrouter' do
+  url 'https://github.com/facebook/mcrouter/archive/master.zip'
+  path '/opt'
+  action :put
 end
 
 execute 'autoreconf_mcrouter' do
@@ -67,22 +60,9 @@ execute 'autoreconf_mcrouter' do
 end
 
 execute 'install_mcrouter' do
-  command %(LD_LIBRARY_PATH="#{node['mcrouter']['install_dir']}/lib:$LD_LIBRARY_PATH" ) +
-    %(LD_RUN_PATH="/opt/folly/folly/test/.libs:#{node['mcrouter']['install_dir']}/lib" ) +
-    %(LDFLAGS="-L/opt/folly/folly/test/.libs ) +
-    %(-L#{node['mcrouter']['install_dir']}/lib" ) +
-    %(CPPFLAGS="-I/opt/folly/folly/test/gtest-1.6.0/include ) +
-    %(-I#{node['mcrouter']['install_dir']}/include ) +
-    '-I/opt/folly ' \
-    '-I/opt/double-conversion" ' +
-    %(./configure --prefix="#{node['mcrouter']['install_dir']}" && ) +
-    'make && make install'
+  command './configure && make && make install'
   cwd "#{node['mcrouter']['src_dir']}/mcrouter"
-  creates "#{node['mcrouter']['install_dir']}/bin/mcrouter"
-end
-
-link '/usr/local/bin/mcrouter' do
-  to "#{node['mcrouter']['install_dir']}/bin/mcrouter"
+  creates '/usr/local/bin/mcrouter'
 end
 
 user node['mcrouter']['user'] do
