@@ -41,6 +41,10 @@ describe 'mcrouter::default' do
       expect(chef_run).to include_recipe 'memcached::default'
     end
 
+    it 'installs the folly library & its dependencies' do
+      expect(chef_run).to include_recipe 'mcrouter::folly'
+    end
+
     it 'installs mcrouter & its dependencies' do
       expect(chef_run).to include_recipe 'mcrouter::install'
     end
