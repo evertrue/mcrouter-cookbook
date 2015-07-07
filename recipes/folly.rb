@@ -42,7 +42,7 @@ end
 
 ark 'folly' do
   url 'https://github.com/facebook/folly/archive/v0.47.0.zip'
-  path '/opt'
+  path Chef::Config[:file_cache_path]
   action :put
 end
 

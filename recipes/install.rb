@@ -49,7 +49,7 @@ end
 
 ark 'mcrouter' do
   url 'https://github.com/facebook/mcrouter/archive/master.zip'
-  path '/opt'
+  path Chef::Config[:file_cache_path]
   action :put
 end
 
