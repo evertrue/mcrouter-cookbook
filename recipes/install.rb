@@ -47,22 +47,33 @@
   package pkg
 end
 
+mcrouter_executable = '/usr/local/bin/mcrouter'
+
 ark 'mcrouter' do
   url 'https://github.com/facebook/mcrouter/archive/master.zip'
   path Chef::Config[:file_cache_path]
   action :put
+  not_if { File.exist?(mcrouter_executable) }
 end
+
+mcrouter_build_dir = "#{Chef::Config[:file_cache_path]}/mcrouter"
 
 execute 'autoreconf_mcrouter' do
   command 'autoreconf --install'
-  cwd "#{node['mcrouter']['src_dir']}/mcrouter"
-  creates "#{node['mcrouter']['src_dir']}/mcrouter/build-aux"
+  cwd "#{mcrouter_build_dir}/mcrouter"
+  creates "#{mcrouter_build_dir}/mcrouter/build-aux"
+  not_if { File.exist?(mcrouter_executable) }
 end
 
 execute 'install_mcrouter' do
   command './configure && make && make install'
-  cwd "#{node['mcrouter']['src_dir']}/mcrouter"
-  creates '/usr/local/bin/mcrouter'
+  cwd "#{mcrouter_build_dir}/mcrouter"
+  creates mcrouter_executable
+end
+
+directory mcrouter_build_dir do
+  action    :delete
+  recursive true
 end
 
 user node['mcrouter']['user'] do

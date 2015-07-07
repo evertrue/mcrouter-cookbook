@@ -40,10 +40,13 @@
   package pkg
 end
 
+folly_so = '/usr/local/lib/libfolly.so'
+
 ark 'folly' do
   url 'https://github.com/facebook/folly/archive/v0.47.0.zip'
   path Chef::Config[:file_cache_path]
   action :put
+  not_if { File.exist?(folly_so) }
 end
 
 folly_build_dir = "#{Chef::Config[:file_cache_path]}/folly"
@@ -52,26 +55,23 @@ ark 'gtest' do
   url 'http://googletest.googlecode.com/files/gtest-1.7.0.zip'
   path "#{folly_build_dir}/test"
   action :put
+  not_if { File.exist?(folly_so) }
 end
 
 execute 'autoreconf_folly' do
   command 'autoreconf -ivf'
-  cwd folly_dir
-  creates "#{folly_dir}/build-aux"
+  cwd "#{folly_build_dir}/folly"
+  creates "#{folly_build_dir}/build-aux"
+  not_if { File.exist?(folly_so) }
 end
 
-execute 'configure_folly' do
-  command './configure'
-  cwd folly_dir
+execute 'build_install_folly' do
+  command './configure && make && make install'
+  cwd "#{folly_build_dir}/folly"
+  creates folly_so
 end
 
-execute 'make_folly' do
-  command 'make'
-  cwd folly_dir
-end
-
-execute 'install_folly' do
-  command 'make install'
-  cwd folly_dir
-  creates '/usr/local/lib/libfolly.so'
+directory folly_build_dir do
+  action    :delete
+  recursive true
 end
