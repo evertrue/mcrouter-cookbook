@@ -16,38 +16,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-%w(
-  gcc-4.8
-  g++-4.8
-  libboost1.54-dev
-  libboost-thread1.54-dev
-  libboost-filesystem1.54-dev
-  libboost-system1.54-dev
-  libboost-regex1.54-dev
-  libboost-python1.54-dev
-  libboost-context1.54-dev
-  ragel
-  autoconf
-  libtool
-  python-dev
-  cmake
-  libssl-dev
-  libcap-dev
-  libevent-dev
-  libgtest-dev
-  libsnappy-dev
-  scons
-  binutils-dev
-  make
-  wget
-  libdouble-conversion-dev
-  libgflags-dev
-  libgoogle-glog-dev
-).each do |pkg|
-  package pkg
-end
-
 mcrouter_executable = '/usr/local/bin/mcrouter'
+
+include_recipe 'mcrouter::folly'
 
 ark 'mcrouter' do
   url 'https://github.com/facebook/mcrouter/archive/master.zip'

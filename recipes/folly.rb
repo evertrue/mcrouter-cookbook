@@ -16,29 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-%w(
-  g++
-  automake
-  autoconf
-  autoconf-archive
-  libtool
-  libboost-all-dev
-  libevent-dev
-  libdouble-conversion-dev
-  libgoogle-glog-dev
-  libgflags-dev
-  liblz4-dev
-  liblzma-dev
-  libsnappy-dev
-  make
-  zlib1g-dev
-  binutils-dev
-  libjemalloc-dev
-  libssl-dev
-  libiberty-dev
-).each do |pkg|
-  package pkg
-end
+include_recipe 'mcrouter::_deps'
 
 folly_so = '/usr/local/lib/libfolly.so'
 

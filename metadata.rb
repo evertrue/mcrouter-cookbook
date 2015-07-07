@@ -9,6 +9,7 @@ version          '0.2.2'
 supports 'ubuntu', '= 14.04'
 
 depends 'apt'
+depends 'build-essential'
 depends 'ark', '~> 0.9.0'
 depends 'magic', '~> 1.0'
 depends 'memcached', '~> 1.7'
