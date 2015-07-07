@@ -70,11 +70,6 @@ execute 'make_folly' do
   cwd folly_dir
 end
 
-execute 'check_folly' do
-  command 'make check'
-  cwd folly_dir
-end
-
 execute 'install_folly' do
   command 'make install'
   cwd folly_dir
