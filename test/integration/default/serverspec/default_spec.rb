@@ -26,11 +26,11 @@ describe 'mcrouter::default' do
       describe '#content' do
         subject { super().content }
         it do
+          # rubocop:disable Style/LineLength
           is_expected.to(
-            match(
-              /\{\s+"pools": \{\s+"A": \{\s+"servers": \[\s+"localhost:11811"\s+\]\s+\}\s+\},\s+"route": "PoolRoute\|A"\s+\}/
-            )
+            match(/\{\s+"pools": \{\s+"A": \{\s+"servers": \[\s+"localhost:11811"\s+\]\s+\}\s+\},\s+"route": "PoolRoute\|A"\s+\}/)
           )
+          # rubocop:enable Style/LineLength
         end
       end
     end
@@ -41,14 +41,12 @@ describe 'mcrouter::default' do
       describe '#content' do
         subject { super().content }
         it do
-          is_expected.to(include(
-            'exec /usr/local/bin/mcrouter --port 11211 ' \
-            '--config-file /etc/mcrouter/mcrouter.json ' \
-            '--async-dir /var/spool/mcrouter ' \
-            '--log-path /var/log/mcrouter/mcrouter.log ' \
-            '--pid-file /var/run/mcrouter/mcrouter.pid ' \
-            '--stats-root /var/mcrouter/stats'
-          ))
+          is_expected.to(include('exec /usr/local/bin/mcrouter --port 11211 ' \
+                                 '--config-file /etc/mcrouter/mcrouter.json ' \
+                                 '--async-dir /var/spool/mcrouter ' \
+                                 '--log-path /var/log/mcrouter/mcrouter.log ' \
+                                 '--pid-file /var/run/mcrouter/mcrouter.pid ' \
+                                 '--stats-root /var/mcrouter/stats'))
         end
       end
     end
