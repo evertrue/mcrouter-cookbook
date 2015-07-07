@@ -46,11 +46,11 @@ ark 'folly' do
   action :put
 end
 
-folly_dir = "#{node['folly']['src_dir']}/folly"
+folly_build_dir = "#{Chef::Config[:file_cache_path]}/folly"
 
 ark 'gtest' do
   url 'http://googletest.googlecode.com/files/gtest-1.7.0.zip'
-  path "#{folly_dir}/test"
+  path "#{folly_build_dir}/test"
   action :put
 end
 
