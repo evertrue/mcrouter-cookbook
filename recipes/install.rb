@@ -16,53 +16,36 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-%w(
-  gcc-4.8
-  g++-4.8
-  libboost1.54-dev
-  libboost-thread1.54-dev
-  libboost-filesystem1.54-dev
-  libboost-system1.54-dev
-  libboost-regex1.54-dev
-  libboost-python1.54-dev
-  libboost-context1.54-dev
-  ragel
-  autoconf
-  libtool
-  python-dev
-  cmake
-  libssl-dev
-  libcap-dev
-  libevent-dev
-  libgtest-dev
-  libsnappy-dev
-  scons
-  binutils-dev
-  make
-  wget
-  libdouble-conversion-dev
-  libgflags-dev
-  libgoogle-glog-dev
-).each do |pkg|
-  package pkg
-end
+include_recipe 'mcrouter::folly'
 
 ark 'mcrouter' do
   url 'https://github.com/facebook/mcrouter/archive/master.zip'
-  path '/opt'
+  path Chef::Config[:file_cache_path]
   action :put
 end
 
-execute 'autoreconf_mcrouter' do
-  command 'autoreconf --install'
-  cwd "#{node['mcrouter']['src_dir']}/mcrouter"
-  creates "#{node['mcrouter']['src_dir']}/mcrouter/build-aux"
+mcrouter_build_dir = "#{Chef::Config[:file_cache_path]}/mcrouter"
+
+execute 'build_mcrouter' do
+  command 'autoreconf --install && ./configure && make'
+  cwd "#{mcrouter_build_dir}/mcrouter"
+  subscribes :run, 'ark[mcrouter]', :immediately
+  action :nothing
+end
+
+# We have to use a "unique" resource name here because `ark` above already has
+# a directory resource with this path as its name.
+directory 'delete mcrouter build directory' do
+  path      mcrouter_build_dir
+  action    :nothing
+  recursive true
 end
 
 execute 'install_mcrouter' do
-  command './configure && make && make install'
-  cwd "#{node['mcrouter']['src_dir']}/mcrouter"
+  command 'make install'
+  cwd "#{mcrouter_build_dir}/mcrouter"
   creates '/usr/local/bin/mcrouter'
+  notifies :delete, 'directory[delete mcrouter build directory]'
 end
 
 user node['mcrouter']['user'] do

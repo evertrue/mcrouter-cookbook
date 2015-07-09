@@ -16,67 +16,40 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-%w(
-  g++
-  automake
-  autoconf
-  autoconf-archive
-  libtool
-  libboost-all-dev
-  libevent-dev
-  libdouble-conversion-dev
-  libgoogle-glog-dev
-  libgflags-dev
-  liblz4-dev
-  liblzma-dev
-  libsnappy-dev
-  make
-  zlib1g-dev
-  binutils-dev
-  libjemalloc-dev
-  libssl-dev
-  libiberty-dev
-).each do |pkg|
-  package pkg
-end
+include_recipe 'mcrouter::_deps'
 
 ark 'folly' do
   url 'https://github.com/facebook/folly/archive/v0.47.0.zip'
-  path '/opt'
+  path Chef::Config[:file_cache_path]
   action :put
 end
 
-folly_dir = "#{node['folly']['src_dir']}/folly"
+folly_build_dir = "#{Chef::Config[:file_cache_path]}/folly"
 
-ark 'gtest' do
-  url 'http://googletest.googlecode.com/files/gtest-1.7.0.zip'
-  path "#{folly_dir}/test"
-  action :put
+execute 'build_folly' do
+  command 'autoreconf -ivf && ./configure && make'
+  cwd "#{folly_build_dir}/folly"
+  subscribes :run, 'ark[folly]', :immediately
+  action :nothing
 end
 
-execute 'autoreconf_folly' do
-  command 'autoreconf -ivf'
-  cwd folly_dir
-  creates "#{folly_dir}/build-aux"
+# We have to use a "unique" resource name here because `ark` above already has
+# a directory resource with this path as its name.
+directory 'delete folly build directory' do
+  path      folly_build_dir
+  action    :nothing
+  recursive true
 end
 
-execute 'configure_folly' do
-  command './configure'
-  cwd folly_dir
-end
-
-execute 'make_folly' do
-  command 'make'
-  cwd folly_dir
-end
-
-execute 'check_folly' do
-  command 'make check'
-  cwd folly_dir
+execute 'rebuild_ld_so_cache' do
+  command 'ldconfig'
+  action  :nothing
 end
 
 execute 'install_folly' do
   command 'make install'
-  cwd folly_dir
+  cwd "#{folly_build_dir}/folly"
   creates '/usr/local/lib/libfolly.so'
+  notifies :run, 'execute[rebuild_ld_so_cache]', :immediately
+  notifies :delete, 'directory[delete folly build directory]'
 end
