@@ -16,35 +16,36 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-mcrouter_executable = '/usr/local/bin/mcrouter'
-
 include_recipe 'mcrouter::folly'
 
 ark 'mcrouter' do
   url 'https://github.com/facebook/mcrouter/archive/master.zip'
   path Chef::Config[:file_cache_path]
   action :put
-  not_if { File.exist?(mcrouter_executable) }
 end
 
 mcrouter_build_dir = "#{Chef::Config[:file_cache_path]}/mcrouter"
 
-execute 'autoreconf_mcrouter' do
-  command 'autoreconf --install'
+execute 'build_mcrouter' do
+  command 'autoreconf --install && ./configure && make'
   cwd "#{mcrouter_build_dir}/mcrouter"
-  creates "#{mcrouter_build_dir}/mcrouter/build-aux"
-  not_if { File.exist?(mcrouter_executable) }
+  subscribes :run, 'ark[mcrouter]', :immediately
+  action :nothing
+end
+
+# We have to use a "unique" resource name here because `ark` above already has
+# a directory resource with this path as its name.
+directory 'delete mcrouter build directory' do
+  path      mcrouter_build_dir
+  action    :nothing
+  recursive true
 end
 
 execute 'install_mcrouter' do
-  command './configure && make && make install'
+  command 'make install'
   cwd "#{mcrouter_build_dir}/mcrouter"
-  creates mcrouter_executable
-end
-
-directory mcrouter_build_dir do
-  action    :delete
-  recursive true
+  creates '/usr/local/bin/mcrouter'
+  notifies :delete, 'directory[delete mcrouter build directory]'
 end
 
 user node['mcrouter']['user'] do
