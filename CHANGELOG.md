@@ -1,5 +1,30 @@
 # CHANGELOG for mcrouter
 
+## [v1.0.0] (2015-07-09)
+
+### Breaking changes:
+
+* `['mcrouter']['src_dir']` no longer determines build location (that is now `:file_cache_path`), and as a result...
+* Builds are now done in `:file_cache_path` instead of `/opt`
+* `mcrouter::folly` is now included by `mcrouter::install`
+
+### Changes:
+
+* Vastly clean up the install process (e.g. now using `ark` for source install)
+    - Stopped installing gtest
+    - Pruned Apt package install list
+    - Use `./configure` defaults rather than specifying a zillion environment variables
+    - Just do `make install` for mcrouter and use the default install location (rather than linking `/usr/local/bin/mcrouter -> node['mcrouter']['install_dir']/bin/mcrouter`)
+    - Just install `build-essentials` with the cookbook rather than devoting half the cookbook to setting up the build system
+    - Break package installs out into `_deps` recipe
+* Folly and McRouter now delete their build directories once they're finished installing
+* Update the README
+* Clean up the Upstart script a bit
+
+### Fixes:
+
+* Run `ldconfig` after `make install` on folly (addresses "library not found" issue with mcrouter)
+
 ## [v0.2.2] (2015-02-28)
 
 ### Fixes:
