@@ -16,42 +16,40 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-git node['folly']['src_dir'] do
-  repository 'https://github.com/facebook/folly.git'
-  action :checkout
+include_recipe 'mcrouter::_deps'
+
+ark 'folly' do
+  url 'https://github.com/facebook/folly/archive/v0.47.0.zip'
+  path Chef::Config[:file_cache_path]
+  action :put
 end
 
-git '/opt/double-conversion' do
-  repository 'https://github.com/floitsch/double-conversion.git'
-  action :checkout
-  not_if 'test -d /usr/include/double-conversion'
-  notifies :create, 'link[/opt/double-conversion/double-conversion]', :immediately
-end
+folly_build_dir = "#{Chef::Config[:file_cache_path]}/folly"
 
-link '/opt/double-conversion/double-conversion' do
-  to '/opt/double-conversion/src'
+execute 'build_folly' do
+  command 'autoreconf -ivf && ./configure && make'
+  cwd "#{folly_build_dir}/folly"
+  subscribes :run, 'ark[folly]', :immediately
   action :nothing
 end
 
-remote_file "#{node['folly']['src_dir']}/folly/test/gtest-1.6.0.zip" do
-  source 'http://googletest.googlecode.com/files/gtest-1.6.0.zip'
+# We have to use a "unique" resource name here because `ark` above already has
+# a directory resource with this path as its name.
+directory 'delete folly build directory' do
+  path      folly_build_dir
+  action    :nothing
+  recursive true
 end
 
-execute 'unzip gtest-1.6.0.zip' do
-  cwd "#{node['folly']['src_dir']}/folly/test"
-  creates "#{node['folly']['src_dir']}/folly/test/gtest-1.6.0"
-end
-
-execute 'autoreconf_folly' do
-  command 'autoreconf --install'
-  cwd "#{node['folly']['src_dir']}/folly"
-  creates "#{node['folly']['src_dir']}/folly/build-aux"
+execute 'rebuild_ld_so_cache' do
+  command 'ldconfig'
+  action  :nothing
 end
 
 execute 'install_folly' do
-  command %(LD_LIBRARY_PATH="#{node['mcrouter']['install_dir']}/lib:$LD_LIBRARY_PATH" ) +
-    %(LD_RUN_PATH="#{node['mcrouter']['install_dir']}/lib" ) +
-    %(./configure --prefix="#{node['mcrouter']['install_dir']}" && make && make install)
-  cwd "#{node['folly']['src_dir']}/folly"
-  creates "#{node['mcrouter']['install_dir']}/lib"
+  command 'make install'
+  cwd "#{folly_build_dir}/folly"
+  creates '/usr/local/lib/libfolly.so'
+  notifies :run, 'execute[rebuild_ld_so_cache]', :immediately
+  notifies :delete, 'directory[delete folly build directory]'
 end

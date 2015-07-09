@@ -29,73 +29,57 @@ describe 'mcrouter::folly' do
       stub_commands
     end
 
-    it 'checks out the folly Git repo' do
-      expect(chef_run).to checkout_git('/opt/folly')
-        .with repository: 'https://github.com/facebook/folly.git'
+    folly_dir = '/opt/folly/folly'
+
+    it 'downloads folly' do
+      expect(chef_run).to put_ark('folly').with(
+        url: 'https://github.com/facebook/folly/archive/v0.47.0.zip',
+        path: '/opt'
+      )
     end
 
-    it 'does not check out the double-conversion Git repo' do
-      expect(chef_run).to_not checkout_git('/opt/double-conversion')
-        .with repository: 'https://github.com/floitsch/double-conversion.git'
-    end
-
-    it 'does not symlink double-conversion' do
-      double_conv_link = chef_run.link '/opt/double-conversion/double-conversion'
-      expect(double_conv_link).to do_nothing
-    end
-
-    it 'creates remote_file gtest-1.6.0.zip' do
-      expect(chef_run).to create_remote_file('/opt/folly/folly/test/gtest-1.6.0.zip')
-        .with source: 'http://googletest.googlecode.com/files/gtest-1.6.0.zip'
-    end
-
-    it 'unzips gtest-1.6.0.zip' do
-      expect(chef_run).to run_execute('unzip gtest-1.6.0.zip').with(
-        cwd: '/opt/folly/folly/test',
-        creates: '/opt/folly/folly/test/gtest-1.6.0'
+    it 'downloads googletest' do
+      expect(chef_run).to put_ark('gtest').with(
+        url: 'http://googletest.googlecode.com/files/gtest-1.7.0.zip',
+        path: "#{folly_dir}/test"
       )
     end
 
     it 'executes autoreconf_folly' do
       expect(chef_run).to run_execute('autoreconf_folly').with(
-        command: 'autoreconf --install',
+        command: 'autoreconf -ivf',
         cwd: '/opt/folly/folly',
         creates: '/opt/folly/folly/build-aux'
       )
     end
 
-    it 'configures, makes and installs folly' do
-      expect(chef_run).to run_execute('install_folly').with(
-        command: 'LD_LIBRARY_PATH="/opt/mcrouter/install/lib:$LD_LIBRARY_PATH" ' \
-          'LD_RUN_PATH="/opt/mcrouter/install/lib" ' \
-          './configure --prefix="/opt/mcrouter/install" && make && make install',
-        cwd: '/opt/folly/folly',
-        creates: '/opt/mcrouter/install/lib'
+    it 'configures folly' do
+      expect(chef_run).to run_execute('configure_folly').with(
+        command: './configure',
+        cwd: folly_dir
       )
     end
-  end
-end
 
-describe 'mcrouter::folly' do
-  context 'when double-conversion is not installed, on Ubuntu 14.04,' do
-    let(:chef_run) do
-      runner = ChefSpec::SoloRunner.new platform: 'ubuntu', version: '14.04'
-      runner.converge(described_recipe)
+    it 'makes folly' do
+      expect(chef_run).to run_execute('make_folly').with(
+        command: 'make',
+        cwd: folly_dir
+      )
     end
 
-    before do
-      stub_command('test -d /usr/include/double-conversion').and_return false
+    it 'checks folly' do
+      expect(chef_run).to run_execute('check_folly').with(
+        command: 'make check',
+        cwd: folly_dir
+      )
     end
 
-    it 'checks out the the double-conversion Git repo' do
-      expect(chef_run).to checkout_git('/opt/double-conversion')
-        .with repository: 'https://github.com/floitsch/double-conversion.git'
-    end
-
-    it 'notifies the link[/opt/double-conversion/double-conversion] to create' do
-      double_conv_git = chef_run.git('/opt/double-conversion')
-      expect(double_conv_git).to notify('link[/opt/double-conversion/double-conversion]')
-        .to(:create).immediately
+    it 'installs folly' do
+      expect(chef_run).to run_execute('install_folly').with(
+        command: 'make install',
+        cwd: folly_dir,
+        creates: '/usr/local/lib/libfolly.so'
+      )
     end
   end
 end

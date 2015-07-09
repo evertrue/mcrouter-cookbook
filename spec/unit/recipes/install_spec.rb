@@ -42,7 +42,6 @@ describe 'mcrouter::install' do
         libboost-context1.54-dev
         ragel
         autoconf
-        unzip
         libtool
         python-dev
         cmake
@@ -63,24 +62,11 @@ describe 'mcrouter::install' do
       end
     end
 
-    it 'updates alternatives for compilers' do
-      {
-        'gcc' => '4.8',
-        'g++' => '4.8'
-      }.each do |name, ver|
-        expect(chef_run).to run_execute(
-          "update-alternatives --install /usr/bin/#{name} #{name} /usr/bin/#{name}-#{ver} 50"
-        )
-      end
-    end
-
-    it 'checks out the mcrouter Git repo' do
-      expect(chef_run).to checkout_git('/opt/mcrouter')
-        .with repository: 'https://github.com/facebook/mcrouter.git'
-    end
-
-    it 'includes the folly recipe' do
-      expect(chef_run).to include_recipe 'mcrouter::folly'
+    it 'downloads mcrouter' do
+      expect(chef_run).to put_ark('mcrouter').with(
+        url: 'https://github.com/facebook/mcrouter/archive/master.zip',
+        path: '/opt'
+      )
     end
 
     it 'executes autoreconf_mcrouter' do
@@ -93,23 +79,9 @@ describe 'mcrouter::install' do
 
     it 'configures, makes and installs mcrouter' do
       expect(chef_run).to run_execute('install_mcrouter').with(
-        command: 'LD_LIBRARY_PATH="/opt/mcrouter/install/lib:$LD_LIBRARY_PATH" ' \
-          'LD_RUN_PATH="/opt/folly/folly/test/.libs:/opt/mcrouter/install/lib" ' \
-          'LDFLAGS="-L/opt/folly/folly/test/.libs -L/opt/mcrouter/install/lib" ' \
-          'CPPFLAGS="-I/opt/folly/folly/test/gtest-1.6.0/include ' \
-          '-I/opt/mcrouter/install/include ' \
-          '-I/opt/folly ' \
-          '-I/opt/double-conversion" ' \
-          './configure --prefix="/opt/mcrouter/install" && ' \
-          'make && make install',
+        command: './configure && make && make install',
         cwd: '/opt/mcrouter/mcrouter',
-        creates: '/opt/mcrouter/install/bin/mcrouter'
-      )
-    end
-
-    it 'links mcrouter into /usr/local/bin' do
-      expect(chef_run).to create_link('/usr/local/bin/mcrouter').with(
-        to: '/opt/mcrouter/install/bin/mcrouter'
+        creates: '/usr/local/bin/mcrouter'
       )
     end
 

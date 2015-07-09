@@ -9,7 +9,7 @@ This cookbook can, optionally, install a copy of memcached to use locally. This 
 # Requirements
 
 * `apt` cookbook
-* `git` cookbook
+* `ark` cookbook
 * `memcached` cookbook
 * `magic` cookbook
 
@@ -31,16 +31,17 @@ If you wish to customize any of the configuration for mcrouter, you will want to
 
 Wraps it all up with a nice bow.
 
-1. Set up & updates apt using `apt::default`
-2. Install git using `git::default`
-3. Include various recipes for this cookbook:
+1. Set up & update apt using `apt::default`
+2. Install memcached using `memcached::default` if local memcached is enabled
+3. Include recipes from this cookbook to build, install, configure, and start mcrouter:
+    * `mcrouter::folly`
     * `mcrouter::install`
-        - which includes `mcrouter::folloy`
     * `mcrouter::configure`
+    * `mcrouter::service`
 
 ## install
 
-Handle the installation of mcrouter & its dependencies.
+Handle the installation of mcrouter from source.
 
 ## folly
 

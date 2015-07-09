@@ -16,73 +16,36 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-%w(
-  gcc-4.8
-  g++-4.8
-  libboost1.54-dev
-  libboost-thread1.54-dev
-  libboost-filesystem1.54-dev
-  libboost-system1.54-dev
-  libboost-regex1.54-dev
-  libboost-python1.54-dev
-  libboost-context1.54-dev
-  ragel
-  autoconf
-  unzip
-  libtool
-  python-dev
-  cmake
-  libssl-dev
-  libcap-dev
-  libevent-dev
-  libgtest-dev
-  libsnappy-dev
-  scons
-  binutils-dev
-  make
-  wget
-  libdouble-conversion-dev
-  libgflags-dev
-  libgoogle-glog-dev
-).each do |pkg|
-  package pkg
+include_recipe 'mcrouter::folly'
+
+ark 'mcrouter' do
+  url 'https://github.com/facebook/mcrouter/archive/master.zip'
+  path Chef::Config[:file_cache_path]
+  action :put
 end
 
-{
-  'gcc' => '4.8',
-  'g++' => '4.8'
-}.each do |name, ver|
-  execute "update-alternatives --install /usr/bin/#{name} #{name} /usr/bin/#{name}-#{ver} 50"
+mcrouter_build_dir = "#{Chef::Config[:file_cache_path]}/mcrouter"
+
+execute 'build_mcrouter' do
+  command 'autoreconf --install && ./configure && make'
+  cwd "#{mcrouter_build_dir}/mcrouter"
+  subscribes :run, 'ark[mcrouter]', :immediately
+  action :nothing
 end
 
-git node['mcrouter']['src_dir'] do
-  repository 'https://github.com/facebook/mcrouter.git'
-  action :checkout
-end
-
-execute 'autoreconf_mcrouter' do
-  command 'autoreconf --install'
-  cwd "#{node['mcrouter']['src_dir']}/mcrouter"
-  creates "#{node['mcrouter']['src_dir']}/mcrouter/build-aux"
+# We have to use a "unique" resource name here because `ark` above already has
+# a directory resource with this path as its name.
+directory 'delete mcrouter build directory' do
+  path      mcrouter_build_dir
+  action    :nothing
+  recursive true
 end
 
 execute 'install_mcrouter' do
-  command %(LD_LIBRARY_PATH="#{node['mcrouter']['install_dir']}/lib:$LD_LIBRARY_PATH" ) +
-    %(LD_RUN_PATH="/opt/folly/folly/test/.libs:#{node['mcrouter']['install_dir']}/lib" ) +
-    %(LDFLAGS="-L/opt/folly/folly/test/.libs ) +
-    %(-L#{node['mcrouter']['install_dir']}/lib" ) +
-    %(CPPFLAGS="-I/opt/folly/folly/test/gtest-1.6.0/include ) +
-    %(-I#{node['mcrouter']['install_dir']}/include ) +
-    '-I/opt/folly ' \
-    '-I/opt/double-conversion" ' +
-    %(./configure --prefix="#{node['mcrouter']['install_dir']}" && ) +
-    'make && make install'
-  cwd "#{node['mcrouter']['src_dir']}/mcrouter"
-  creates "#{node['mcrouter']['install_dir']}/bin/mcrouter"
-end
-
-link '/usr/local/bin/mcrouter' do
-  to "#{node['mcrouter']['install_dir']}/bin/mcrouter"
+  command 'make install'
+  cwd "#{mcrouter_build_dir}/mcrouter"
+  creates '/usr/local/bin/mcrouter'
+  notifies :delete, 'directory[delete mcrouter build directory]'
 end
 
 user node['mcrouter']['user'] do

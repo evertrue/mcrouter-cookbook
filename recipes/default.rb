@@ -17,9 +17,8 @@
 # limitations under the License.
 
 include_recipe 'apt::default'
-include_recipe 'git::default'
+include_recipe 'ark::default'
 include_recipe 'memcached::default' if node['mcrouter']['local_memcached']
-include_recipe 'mcrouter::folly'
 include_recipe 'mcrouter::install'
 include_recipe 'mcrouter::configure'
 include_recipe 'mcrouter::service'
