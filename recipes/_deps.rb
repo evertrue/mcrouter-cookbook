@@ -13,6 +13,7 @@ include_recipe 'build-essential'
   libdouble-conversion-dev
   libevent-dev
   libgoogle-glog-dev
+  libssl-dev
   libtool
   ragel
 ).each do |pkg|
