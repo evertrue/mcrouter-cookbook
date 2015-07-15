@@ -1,5 +1,11 @@
 # CHANGELOG for mcrouter
 
+## [v1.0.1] (2015-07-15)
+
+### Fixes:
+
+* Add dependency package: libssl-dev
+
 ## [v1.0.0] (2015-07-09)
 
 ### Breaking changes:
