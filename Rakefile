@@ -47,7 +47,7 @@ namespace :integration do
   end
 end
 
-c 'Run all tests on Travis'
+desc 'Run all tests on Travis'
 task travis: %w(style unit integration:cloud)
 
 desc 'Run all tests by default'
