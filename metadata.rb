@@ -10,6 +10,6 @@ supports 'ubuntu', '= 14.04'
 
 depends 'apt'
 depends 'build-essential'
-depends 'ark', '~> 0.9.0'
+depends 'ark'
 depends 'memcached', '~> 1.7'
 depends 'magic', '~> 1.1'
