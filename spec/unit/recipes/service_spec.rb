@@ -25,10 +25,6 @@ describe 'mcrouter::service' do
       runner.converge(described_recipe)
     end
 
-    before do
-      stub_commands
-    end
-
     it 'installs an Upstart service script' do
       expect(chef_run).to create_template '/etc/init/mcrouter.conf'
     end

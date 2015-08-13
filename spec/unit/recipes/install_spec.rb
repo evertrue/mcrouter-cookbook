@@ -21,68 +21,47 @@ require 'spec_helper'
 describe 'mcrouter::install' do
   context 'when all attributes are default, on Ubuntu 14.04,' do
     let(:chef_run) do
-      runner = ChefSpec::SoloRunner.new
-      runner.converge(described_recipe)
+      ChefSpec::SoloRunner.new(file_cache_path: '/tmp/chef/cache')
+        .converge(described_recipe)
     end
 
-    before do
-      stub_commands
-    end
-
-    it 'installs necessary dependencies' do
-      %w(
-        gcc-4.8
-        g++-4.8
-        libboost1.54-dev
-        libboost-thread1.54-dev
-        libboost-filesystem1.54-dev
-        libboost-system1.54-dev
-        libboost-regex1.54-dev
-        libboost-python1.54-dev
-        libboost-context1.54-dev
-        ragel
-        autoconf
-        libtool
-        python-dev
-        cmake
-        libssl-dev
-        libcap-dev
-        libevent-dev
-        libgtest-dev
-        libsnappy-dev
-        scons
-        binutils-dev
-        make
-        wget
-        libdouble-conversion-dev
-        libgflags-dev
-        libgoogle-glog-dev
-      ).each do |pkg|
-        expect(chef_run).to install_package(pkg)
-      end
-    end
+    let(:mcrouter_build_dir) { '/tmp/chef/cache/mcrouter' }
 
     it 'downloads mcrouter' do
       expect(chef_run).to put_ark('mcrouter').with(
-        url: 'https://github.com/facebook/mcrouter/archive/master.zip',
-        path: '/opt'
+        url: 'https://github.com/facebook/mcrouter/archive/v0.5.0.zip',
+        path: '/tmp/chef/cache'
       )
     end
 
-    it 'executes autoreconf_mcrouter' do
-      expect(chef_run).to run_execute('autoreconf_mcrouter').with(
-        command: 'autoreconf --install',
-        cwd: '/opt/mcrouter/mcrouter',
-        creates: '/opt/mcrouter/mcrouter/build-aux'
+    it 'builds mcrouter' do
+      expect(chef_run).to_not run_execute('build_mcrouter').with(
+        command: 'autoreconf --install && ./configure && make',
+        cwd: "#{mcrouter_build_dir}/mcrouter"
       )
+
+      build_mcrouter = chef_run.execute 'build_mcrouter'
+      expect(build_mcrouter).to subscribe_to('ark[mcrouter]').on(:run).immediately
     end
 
-    it 'configures, makes and installs mcrouter' do
+    it 'waits to delete the mcrouter build dir' do
+      resource = chef_run.directory 'delete mcrouter build directory'
+      expect(resource).to do_nothing
+    end
+
+    it 'installs mcrouter' do
       expect(chef_run).to run_execute('install_mcrouter').with(
-        command: './configure && make && make install',
-        cwd: '/opt/mcrouter/mcrouter',
+        command: 'make install',
+        cwd: "#{mcrouter_build_dir}/mcrouter",
         creates: '/usr/local/bin/mcrouter'
       )
+    end
+
+    context 'after installing mcrouter' do
+      it 'deletes the mcrouter build dir' do
+        install_mcrouter = chef_run.execute('install_mcrouter')
+        expect(install_mcrouter).to notify('directory[delete mcrouter build directory]').to :delete
+      end
     end
 
     it 'creates a mcrouter user' do

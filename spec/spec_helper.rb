@@ -11,8 +11,4 @@ RSpec.configure do |config|
   config.version = '14.04'
 end
 
-def stub_commands
-  stub_command('test -d /usr/include/double-conversion').and_return true
-end
-
 at_exit { ChefSpec::Coverage.report! }

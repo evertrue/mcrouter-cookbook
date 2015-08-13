@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: mcrouter
-# Spec:: default
+# Spec:: _deps
 #
 # Copyright 2015 EverTrue, Inc.
 #
@@ -18,34 +18,35 @@
 
 require 'spec_helper'
 
-describe 'mcrouter::default' do
+describe 'mcrouter::_deps' do
   context 'when all attributes are default, on Ubuntu 14.04,' do
     let(:chef_run) do
       ChefSpec::SoloRunner.new.converge described_recipe
     end
 
-    it 'ensures apt is up-to-date' do
-      expect(chef_run).to include_recipe 'apt::default'
-    end
-
-    it 'includes ark' do
-      expect(chef_run).to include_recipe 'ark::default'
-    end
-
-    it 'installs and starts memcached' do
-      expect(chef_run).to include_recipe 'memcached::default'
-    end
-
-    it 'installs mcrouter & its dependencies' do
-      expect(chef_run).to include_recipe 'mcrouter::install'
-    end
-
-    it 'configures mcrouter' do
-      expect(chef_run).to include_recipe 'mcrouter::configure'
-    end
-
-    it 'sets up the mcrouter service' do
-      expect(chef_run).to include_recipe 'mcrouter::configure'
+    it 'installs necessary dependencies' do
+      %w(
+        automake
+        autoconf-archive
+        libboost-all-dev
+        libcap-dev
+        libdouble-conversion-dev
+        libevent-dev
+        libgoogle-glog-dev
+        libgflags-dev
+        liblz4-dev
+        liblzma-dev
+        libsnappy-dev
+        zlib1g-dev
+        binutils-dev
+        libjemalloc-dev
+        libssl-dev
+        libtool
+        ragel
+        libiberty-dev
+      ).each do |pkg|
+        expect(chef_run).to install_package(pkg)
+      end
     end
   end
 end
