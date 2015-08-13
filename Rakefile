@@ -28,8 +28,5 @@ task :integration do
   end
 end
 
-desc 'Run style & unit tests on Travis'
-task travis: %w(style unit)
-
 desc 'Run all tests by default'
-task default: %w(travis integration)
+task default: %w(style unit integration)
