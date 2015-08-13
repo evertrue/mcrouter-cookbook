@@ -1,21 +1,24 @@
 include_recipe 'build-essential'
 
 %w(
-  autoconf
-  libboost1.54-dev
-  libboost-context1.54-dev
-  libboost-filesystem1.54-dev
-  libboost-python1.54-dev
-  libboost-regex1.54-dev
-  libboost-system1.54-dev
-  libboost-thread1.54-dev
+  automake
+  autoconf-archive
+  libboost-all-dev
   libcap-dev
   libdouble-conversion-dev
   libevent-dev
   libgoogle-glog-dev
+  libgflags-dev
+  liblz4-dev
+  liblzma-dev
+  libsnappy-dev
+  zlib1g-dev
+  binutils-dev
+  libjemalloc-dev
   libssl-dev
   libtool
   ragel
+  libiberty-dev
 ).each do |pkg|
   package pkg
 end
