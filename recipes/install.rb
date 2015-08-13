@@ -19,7 +19,7 @@
 include_recipe 'mcrouter::folly'
 
 ark 'mcrouter' do
-  url 'https://github.com/facebook/mcrouter/archive/master.zip'
+  url "https://github.com/facebook/mcrouter/archive/#{node['mcrouter']['version']}.zip"
   path Chef::Config[:file_cache_path]
   action :put
 end

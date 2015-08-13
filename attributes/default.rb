@@ -1,6 +1,7 @@
 default['mcrouter']['src_dir'] = '/opt/mcrouter'
 default['mcrouter']['install_dir'] = "#{node['mcrouter']['src_dir']}/install"
 default['mcrouter']['user'] = 'mcrouter'
+default['mcrouter']['version'] = 'v0.5.0'
 
 default['folly']['src_dir'] = '/opt/folly'
 
