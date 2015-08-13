@@ -10,6 +10,7 @@ before_install:
 - echo 'node_name "trubot"' >> ~/.chef/knife.rb
 - chmod 600 ~/.chef/knife.rb ~/.ssh/travis_ci_ec2.pem
 before_script:
+- bundle update
 - bundle exec berks
 notifications:
   slack:
