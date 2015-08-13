@@ -11,5 +11,9 @@ end
 
 group :integration do
   gem 'test-kitchen',    '~> 1.3'
+  gem 'kitchen-ec2',     '~> 0.10'
+end
+
+group :vagrant do
   gem 'kitchen-vagrant', '~> 0.15'
 end

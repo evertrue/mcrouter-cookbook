@@ -2,7 +2,7 @@ language: ruby
 cache: bundler
 rvm:
 - 2.1
-bundler_args: "--deployment --without integration"
+bundler_args: "--deployment --without vagrant"
 before_install:
 - openssl aes-256-cbc -K $encrypted_7eb6a5adb463_key -iv $encrypted_7eb6a5adb463_iv
   -in travis_ci_ec2.pem.enc -out ~/.ssh/travis_ci_ec2.pem -d
