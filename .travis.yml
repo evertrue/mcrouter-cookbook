@@ -11,12 +11,13 @@ before_install:
 - chmod 600 ~/.chef/knife.rb ~/.ssh/travis_ci_ec2.pem
 before_script:
 - bundle exec berks
+script:
+- bundle exec rake travis
 notifications:
   slack:
     secure: iZxnXG69lc2ud7VGcvA/wsbh/hTKVDCNLZuv2orKz9sp01a/auxkROHsR1W+reXKSqHfihzFCI5z0et6IMkc9DRUKcyVH65z9D0AIqY4ateSO2KqaGJsniksiksXJp8auDc+3wKC4QUIQ0DDtGyQpwcNAPerznp6k5zpkc8hV+8=
 env:
   global:
-  - KITCHEN_YAML=.kitchen.cloud.yml
   - secure: MxrxVZfL9uj0QEPCFMQHj0yrRVUs6YtQk30NsBv6rQimyN/2U0NYlY3cm6ViILYeHCbYJoghHxVJyWonzPcmzMuVGD/vaXbnFEfblLuVmHD0nmNenWH4a8Lh1p9r88PhWRJBBHRV9lkwg4bACYjKczEbdBhZK7IjmNPFJrLJSB4=
   - secure: K5bTwpoYTs5Ze/s27yc0qAah+lQ/IOxY/unAoqVCYqgD/d/zLvHSBEXLJpa83WdLMjcUCuJRbXXt6KbtaIbfMMp+FGdqLuufY8V273srYCGztsdnZPBoME4Xw/53mOtnaMNmjMYgJIa2dcks5obZrsHGQbKpEyfh31xiJkYhx2Y=
   - secure: hjkN0cUSq4XyPtMug+URX5MYPfJchh//rppo9xv5qZECgrdVKuig2NUBAtrtolWMStNixIlUH1HrjhLU8A3jXNSaRnhuRs17WpgSaxTRcxV4PG3dJyk22LcROn/mKHivppiRk/xKTcdyPJirEt3movOa8juphHajBYz7yQCOPvc=
