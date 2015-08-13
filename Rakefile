@@ -4,6 +4,7 @@ require 'bundler/setup'
 require 'rspec/core/rake_task'
 require 'rubocop/rake_task'
 require 'foodcritic'
+require 'kitchen'
 
 namespace :style do
   desc 'Run Ruby style checks'
