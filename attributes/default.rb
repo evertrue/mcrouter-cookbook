@@ -4,6 +4,7 @@ default['mcrouter']['user'] = 'mcrouter'
 default['mcrouter']['version'] = 'v0.5.0'
 
 default['folly']['src_dir'] = '/opt/folly'
+default['folly']['version'] = 'v0.53.0'
 
 default['mcrouter']['local_memcached'] = true
 set['memcached']['port'] = 11_811
