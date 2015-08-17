@@ -1,5 +1,18 @@
 # CHANGELOG for mcrouter
 
+## [v2.0.0] (2015-08-17)
+
+### Breaking changes:
+
+* Folly version updated to v0.53.0
+    - This is now adjustable via an attribute, `node['folly']['version']`
+* Mcrouter version set to v0.5.0
+    - This is now adjustable via an attribute, `node['mcrouter']['version']`
+
+### Fixes
+
+* Packages needed for Folly/Mcrouter updated as per most recent Folly/Mcrouter docs
+
 ## [v1.0.1] (2015-07-15)
 
 ### Fixes:
