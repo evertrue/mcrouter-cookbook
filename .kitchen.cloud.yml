@@ -6,8 +6,9 @@ driver:
   security_group_ids: ['ci-testing']
   instance_type: c3.large
   interface: public
-  transport:
-    ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
+
+transport:
+  ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
 
 provisioner:
   name: chef_zero
