@@ -8,11 +8,12 @@ driver:
   security_group_ids: ['ci-testing']
   instance_type: c3.2xlarge
   interface: public
-  transport:
-    ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
   tags:
     Name: mcrouter-ubuntu-1404
     Type: test
+
+transport:
+  ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
 
 provisioner:
   name: chef_zero
