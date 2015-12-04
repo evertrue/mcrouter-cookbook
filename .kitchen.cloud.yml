@@ -1,14 +1,18 @@
 ---
 driver:
   name: ec2
+  require_chef_omnibus: true
+  aws_ssh_key_id: <%= ENV['AWS_KEYPAIR_NAME'] %>
   region: us-east-1
   availability_zone: us-east-1b
   security_group_ids: ['ci-testing']
-  instance_type: c3.large
+  instance_type: c3.2xlarge
   interface: public
-
-transport:
-  ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
+  transport:
+    ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
+  tags:
+    Name: mcrouter-ubuntu-1404
+    Type: test
 
 provisioner:
   name: chef_zero
