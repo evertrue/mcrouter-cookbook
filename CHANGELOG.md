@@ -1,5 +1,12 @@
 # CHANGELOG for mcrouter
 
+## [v2.0.1] (2015-12-07)
+
+### Fixes:
+
+* Updated test kitchen file format
+* Re-order build/install ops so that build dirs are always deleted
+
 ## [v2.0.0] (2015-08-17)
 
 ### Breaking changes:
