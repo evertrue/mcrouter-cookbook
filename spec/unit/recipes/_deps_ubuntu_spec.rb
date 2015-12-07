@@ -18,10 +18,11 @@
 
 require 'spec_helper'
 
-describe 'mcrouter::_deps' do
+describe 'mcrouter::_deps_ubuntu' do
   context 'when all attributes are default, on Ubuntu 14.04,' do
     let(:chef_run) do
-      ChefSpec::ServerRunner.new.converge described_recipe
+      ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '14.04')
+                            .converge described_recipe
     end
 
     it 'installs necessary dependencies' do

@@ -16,38 +16,37 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe 'mcrouter::folly'
+mcrouter_build_dir = file_cache_path 'mcrouter', 'mcrouter'
+install_command = "LD_LIBRARY_PATH='/usr/local/lib:$LD_LIBRARY_PATH' " \
+                  "LD_RUN_PATH='/usr/local/lib:$LD_RUN_PATH' " \
+                  "LDFLAGS='-L/usr/local/lib $LDFLAGS' " \
+                  "CPPFLAGS='-I/usr/local/include $CPPFLAGS' " \
+                  "./configure --prefix='#{node['mcrouter']['install_dir']}'"
+mcrouter_bin = '/usr/local/mcrouter/bin/mcrouter'
 
-execute 'build_mcrouter' do
-  command 'autoreconf --install && ./configure && make'
-  cwd file_cache_path 'mcrouter', 'mcrouter'
-  action :nothing
+execute 'autoreconf --install' do
+  cwd mcrouter_build_dir
+  creates mcrouter_bin
 end
 
-execute 'install_mcrouter' do
-  command 'make install'
-  cwd file_cache_path 'mcrouter', 'mcrouter'
-  creates '/usr/local/bin/mcrouter'
-  action :nothing
+execute 'install mcrouter' do
+  cwd mcrouter_build_dir
+  command install_command
+  creates mcrouter_bin
 end
 
-ark 'mcrouter' do
-  url "https://github.com/facebook/mcrouter/archive/#{node['mcrouter']['version']}.zip"
-  path file_cache_path
-  action :put
-  notifies :run, 'execute[build_mcrouter]', :immediately
-  notifies :run, 'execute[install_mcrouter]', :immediately
+execute 'make -j2' do
+  cwd mcrouter_build_dir
+  creates mcrouter_bin
 end
 
-# We have to use a "unique" resource name here because `ark` above already has
-# a directory resource with this path as its name.
-directory 'delete mcrouter build directory' do
-  path      file_cache_path 'mcrouter', 'mcrouter'
+execute 'make install' do
+  cwd mcrouter_build_dir
+  creates mcrouter_bin
+end
+
+directory '/usr/local/mcrouter' do
+  owner node['mcrouter']['user']
+  group node['mcrouter']['user']
   recursive true
-  action    :delete
-end
-
-user node['mcrouter']['user'] do
-  system true
-  shell '/bin/false'
 end

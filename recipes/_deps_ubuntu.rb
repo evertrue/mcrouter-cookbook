@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: mcrouter
-# Recipe:: _deps
+# Recipe:: _deps_ubuntu
 #
 # Copyright 2015 EverTrue, Inc.
 #
@@ -16,27 +16,31 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+apt_update
 include_recipe 'build-essential'
 
 %w(
-  automake
-  autoconf-archive
-  libboost-all-dev
-  libcap-dev
+  scons
+  autoconf
+  binutils-dev
+  bison
+  cmake
+  flex
+  g++
+  gcc
+  git
+  libboost1.58-all-dev
   libdouble-conversion-dev
   libevent-dev
-  libgoogle-glog-dev
   libgflags-dev
-  liblz4-dev
-  liblzma-dev
-  libsnappy-dev
-  zlib1g-dev
-  binutils-dev
+  libgoogle-glog-dev
   libjemalloc-dev
   libssl-dev
   libtool
+  make
+  pkg-config
+  python-dev
   ragel
-  libiberty-dev
 ).each do |pkg|
   package pkg
 end

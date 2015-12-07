@@ -1,9 +1,8 @@
 #
 # Cookbook Name:: mcrouter
-# Recipe:: default
+# Recipe:: _user
 #
 # Copyright 2015 EverTrue, Inc.
-# Copyright 2017 Roblox, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,13 +15,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-include_recipe 'mcrouter::_user'
-include_recipe "mcrouter::_deps_#{node['platform']}"
-include_recipe 'memcached::default' if node['mcrouter']['local_memcached']
-include_recipe 'mcrouter::_double_conversion'
-include_recipe 'mcrouter::_folly'
-include_recipe 'mcrouter::_wangle'
-include_recipe 'mcrouter::_install'
-include_recipe 'mcrouter::configure'
-include_recipe 'mcrouter::service'
+user node['mcrouter']['user'] do
+  system true
+  shell '/bin/false'
+end
