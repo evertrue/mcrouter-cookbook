@@ -20,6 +20,11 @@ include_recipe 'mcrouter::_deps'
 
 folly_build_dir = "#{Chef::Config[:file_cache_path]}/folly"
 
+execute 'rebuild_ld_so_cache' do
+  command 'ldconfig'
+  action  :nothing
+end
+
 execute 'build_folly' do
   command 'autoreconf -ivf && ./configure && make'
   cwd "#{folly_build_dir}/folly"
@@ -31,11 +36,7 @@ execute 'install_folly' do
   cwd "#{folly_build_dir}/folly"
   creates '/usr/local/lib/libfolly.so'
   action :nothing
-end
-
-execute 'rebuild_ld_so_cache' do
-  command 'ldconfig'
-  action  :nothing
+  notifies :run, 'execute[rebuild_ld_so_cache]', :immediately
 end
 
 ark 'folly' do
@@ -44,7 +45,6 @@ ark 'folly' do
   action :put
   notifies :run, 'execute[build_folly]', :immediately
   notifies :run, 'execute[install_folly]', :immediately
-  notifies :run, 'execute[rebuild_ld_so_cache]', :immediately
 end
 
 # We have to use a "unique" resource name here because `ark` above already has
