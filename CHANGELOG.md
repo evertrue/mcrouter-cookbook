@@ -1,5 +1,17 @@
 # CHANGELOG for mcrouter
 
+## [v3.0.0] (2017-08-15)
+
+### Breaking changes:
+* Removed support for Ubuntu 14.04
+* Removed `node['folly']['version']`
+* Added `node['mcrouter']['wangle_commit_hash']`, `node['mcrouter']['folly_commit_hash']` and `node['mcrouter']['double_conversion_commit_hash']` to indicate the required commit hash for each library.
+* Switched to `systemd` for running `mcrouter` service.
+* Tests need to be improved
+
+### Changes:
+* Added support for Ubuntu 16.04, CentOS 7.2 and CentOS 7.3
+
 ## [v2.0.2] (2015-12-15)
 
 ### Fixes:

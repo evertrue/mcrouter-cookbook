@@ -16,14 +16,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-template '/etc/init/mcrouter.conf' do
-  variables(
-    cli_opts: shell_opts(node['mcrouter']['cli_opts'])
-  )
-end
-
-service 'mcrouter' do
-  supports status: true, restart: true
-  action [:start, :enable]
-  subscribes :restart, 'template[/etc/init/mcrouter.conf]'
+systemd_service 'mcrouter' do
+  unit_description 'mcrouter'
+  unit_after 'network.target'
+  service_type 'simple'
+  service_user node['mcrouter']['user']
+  service_working_directory '/usr/local/mcrouter/'
+  service_exec_start "/usr/local/mcrouter/bin/mcrouter #{shell_opts(node['mcrouter']['cli_opts'])}"
+  service_restart 'on-abort'
+  install_wanted_by 'multi-user.target'
+  action [:create, :restart]
 end
