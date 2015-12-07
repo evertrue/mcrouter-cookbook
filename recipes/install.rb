@@ -18,34 +18,35 @@
 
 include_recipe 'mcrouter::folly'
 
-ark 'mcrouter' do
-  url "https://github.com/facebook/mcrouter/archive/#{node['mcrouter']['version']}.zip"
-  path Chef::Config[:file_cache_path]
-  action :put
-end
-
 mcrouter_build_dir = "#{Chef::Config[:file_cache_path]}/mcrouter"
 
 execute 'build_mcrouter' do
   command 'autoreconf --install && ./configure && make'
   cwd "#{mcrouter_build_dir}/mcrouter"
-  subscribes :run, 'ark[mcrouter]', :immediately
   action :nothing
-end
-
-# We have to use a "unique" resource name here because `ark` above already has
-# a directory resource with this path as its name.
-directory 'delete mcrouter build directory' do
-  path      mcrouter_build_dir
-  action    :nothing
-  recursive true
 end
 
 execute 'install_mcrouter' do
   command 'make install'
   cwd "#{mcrouter_build_dir}/mcrouter"
   creates '/usr/local/bin/mcrouter'
-  notifies :delete, 'directory[delete mcrouter build directory]'
+  action :nothing
+end
+
+ark 'mcrouter' do
+  url "https://github.com/facebook/mcrouter/archive/#{node['mcrouter']['version']}.zip"
+  path Chef::Config[:file_cache_path]
+  action :put
+  notifies :run, 'execute[build_mcrouter]', :immediately
+  notifies :run, 'execute[install_mcrouter]', :immediately
+end
+
+# We have to use a "unique" resource name here because `ark` above already has
+# a directory resource with this path as its name.
+directory 'delete mcrouter build directory' do
+  path      "#{Chef::Config[:file_cache_path]}/mcrouter"
+  recursive true
+  action    :delete
 end
 
 user node['mcrouter']['user'] do
