@@ -50,7 +50,7 @@ end
 # We have to use a "unique" resource name here because `ark` above already has
 # a directory resource with this path as its name.
 directory 'delete folly build directory' do
-  path      "#{Chef::Config[:file_cache_path]}/folly"
+  path      "#{Chef::Config[:file_cache_path]}/folly/folly"
   action    :delete
   recursive true
 end
