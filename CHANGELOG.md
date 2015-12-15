@@ -1,5 +1,11 @@
 # CHANGELOG for mcrouter
 
+## [v2.0.2] (2015-12-15)
+
+### Fixes:
+
+* Delete only build subdirectory (so that ark does not run twice)
+
 ## [v2.0.1] (2015-12-07)
 
 ### Fixes:
