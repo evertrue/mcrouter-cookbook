@@ -5,10 +5,10 @@ rvm:
 bundler_args: "--deployment --without vagrant"
 before_install:
 - openssl aes-256-cbc -K $encrypted_7eb6a5adb463_key -iv $encrypted_7eb6a5adb463_iv
-  -in travis_ci_ec2.pem.enc -out ~/.ssh/travis_ci_ec2.pem -d
-- mkdir ~/.chef
-- echo 'node_name "trubot"' >> ~/.chef/knife.rb
-- chmod 600 ~/.chef/knife.rb ~/.ssh/travis_ci_ec2.pem
+  -in travis_ci_ec2.pem.enc -out $HOME/.ssh/travis_ci_ec2.pem -d
+- mkdir $HOME/.chef
+- echo 'node_name "trubot"' >> $HOME/.chef/knife.rb
+- chmod 600 $HOME/.chef/knife.rb $HOME/.ssh/travis_ci_ec2.pem
 before_script:
 - bundle exec berks
 script:
