@@ -18,5 +18,6 @@ notifications:
     secure: iZxnXG69lc2ud7VGcvA/wsbh/hTKVDCNLZuv2orKz9sp01a/auxkROHsR1W+reXKSqHfihzFCI5z0et6IMkc9DRUKcyVH65z9D0AIqY4ateSO2KqaGJsniksiksXJp8auDc+3wKC4QUIQ0DDtGyQpwcNAPerznp6k5zpkc8hV+8=
 env:
   global:
+  - AWS_SSH_KEY_ID: aws_dev
   - secure: X+Qk4BtNUmaVL6rKax+UCvy+LziEDoY60y9jA1egCaxqmqG2tMsfbWE8sxURkgeUyx2aefQmhKiRJB9RVo14E+8rnJQKIaogJjyvWi2Hno1/CpJ0srQkPYa3PdirhZ7ZGGkD1DUvPkYr1wjQ+pIZ1QDrAWMUwLuz3J4ok8JTQqI=
   - secure: j1xBpj1l4gQtLiNYwpCurZQLzmmqyLeMjGwgjbd3/kTfNavpJ5Fi9B69yXx+4e58EWRG7crWMVkleCevPUKl1ByTrc42RZ/Qh4f71w4Abv8qkjVjUGjDuuQXgkP2kbw8jpRxuV602tY5a9hODWAoE4aUduNTOtF+TiP0//zJAFQ=

@@ -2,7 +2,6 @@
 driver:
   name: ec2
   require_chef_omnibus: true
-  aws_ssh_key_id: <%= ENV['AWS_KEYPAIR_NAME'] %>
   region: us-east-1
   availability_zone: us-east-1b
   security_group_ids: ['ci-testing']
