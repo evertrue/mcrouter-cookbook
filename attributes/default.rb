@@ -7,8 +7,8 @@ default['folly']['src_dir'] = '/opt/folly'
 default['folly']['version'] = 'v0.53.0'
 
 default['mcrouter']['local_memcached'] = true
-set['memcached']['port'] = 11_811
-set['memcached']['udp_port'] = 11_811
+default['memcached']['port'] = 11_811
+default['memcached']['udp_port'] = 11_811
 
 default['mcrouter']['cli_opts'] = {
   'port'        => 11_211,

@@ -22,7 +22,7 @@ If you wish to customize any of the configuration for mcrouter, you will want to
 * `node['mcrouter']['cli_opts']`
     - Do not overwrite this completely; the values specified already are required, instead, either:
         + supply updated values for these in addition to your new options
-        + specify your particular CLI option: `set['mcrouter']['cli_opts']['async-dir']`
+        + specify your particular CLI option: `default['mcrouter']['cli_opts']['async-dir']`
 * `node['mcrouter']['config']`
 
 # Recipes
