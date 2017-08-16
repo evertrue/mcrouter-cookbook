@@ -8,8 +8,8 @@ driver:
   instance_type: c3.2xlarge
   interface: public
   tags:
-    Name: mcrouter-ubuntu-1404
     Type: test
+    Env: public
 
 transport:
   ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
@@ -23,7 +23,6 @@ platforms:
       image_id: ami-9301c7f8
       tags:
         Name: mcrouter-default-ubuntu-1404
-        Env: public
 
 suites:
   - name: default
