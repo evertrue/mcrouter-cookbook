@@ -13,6 +13,6 @@ supports 'ubuntu', '= 14.04'
 
 depends 'apt'
 depends 'build-essential'
-depends 'ark'
+depends 'ark', '~> 3.1'
 depends 'memcached', '~> 1.7'
 depends 'magic', '~> 1.1'
