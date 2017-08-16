@@ -18,24 +18,22 @@
 
 include_recipe 'mcrouter::folly'
 
-mcrouter_build_dir = "#{Chef::Config[:file_cache_path]}/mcrouter"
-
 execute 'build_mcrouter' do
   command 'autoreconf --install && ./configure && make'
-  cwd "#{mcrouter_build_dir}/mcrouter"
+  cwd file_cache_path 'mcrouter', 'mcrouter'
   action :nothing
 end
 
 execute 'install_mcrouter' do
   command 'make install'
-  cwd "#{mcrouter_build_dir}/mcrouter"
+  cwd file_cache_path 'mcrouter', 'mcrouter'
   creates '/usr/local/bin/mcrouter'
   action :nothing
 end
 
 ark 'mcrouter' do
   url "https://github.com/facebook/mcrouter/archive/#{node['mcrouter']['version']}.zip"
-  path Chef::Config[:file_cache_path]
+  path file_cache_path
   action :put
   notifies :run, 'execute[build_mcrouter]', :immediately
   notifies :run, 'execute[install_mcrouter]', :immediately
@@ -44,7 +42,7 @@ end
 # We have to use a "unique" resource name here because `ark` above already has
 # a directory resource with this path as its name.
 directory 'delete mcrouter build directory' do
-  path      "#{Chef::Config[:file_cache_path]}/mcrouter/mcrouter"
+  path      file_cache_path 'mcrouter', 'mcrouter'
   recursive true
   action    :delete
 end
