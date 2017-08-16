@@ -1,7 +1,6 @@
 ---
 driver:
   name: ec2
-  require_chef_omnibus: true
   region: us-east-1
   availability_zone: us-east-1b
   security_group_ids: ['ci-testing']
