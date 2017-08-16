@@ -16,16 +16,16 @@ default['mcrouter']['cli_opts'] = {
   'async-dir'   => '/var/spool/mcrouter',
   'log-path'    => '/var/log/mcrouter/mcrouter.log',
   'pid-file'    => '/var/run/mcrouter/mcrouter.pid',
-  'stats-root'  => '/var/mcrouter/stats'
+  'stats-root'  => '/var/mcrouter/stats',
 }
 
 default['mcrouter']['config'] = {
   'pools' => {
     'A' => {
       'servers' => [
-        'localhost:11811'
-      ]
-    }
+        'localhost:11811',
+      ],
+    },
   },
-  'route' => 'PoolRoute|A'
+  'route' => 'PoolRoute|A',
 }

@@ -23,7 +23,7 @@ cli_opts = node['mcrouter']['cli_opts']
   File.dirname(cli_opts['pid-file']),
   File.dirname(cli_opts['log-path']),
   cli_opts['async-dir'],
-  cli_opts['stats-root']
+  cli_opts['stats-root'],
 ].each do |dir|
   directory dir do
     owner node['mcrouter']['user']

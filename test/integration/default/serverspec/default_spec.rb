@@ -26,11 +26,9 @@ describe 'mcrouter::default' do
       describe '#content' do
         subject { super().content }
         it do
-          # rubocop:disable Style/LineLength
           is_expected.to(
             match(/\{\s+"pools": \{\s+"A": \{\s+"servers": \[\s+"localhost:11811"\s+\]\s+\}\s+\},\s+"route": "PoolRoute\|A"\s+\}/)
           )
-          # rubocop:enable Style/LineLength
         end
       end
     end

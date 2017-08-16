@@ -22,7 +22,7 @@ describe 'mcrouter::install' do
   context 'when all attributes are default, on Ubuntu 14.04,' do
     let(:chef_run) do
       ChefSpec::SoloRunner.new(file_cache_path: '/tmp/chef/cache')
-        .converge(described_recipe)
+                            .converge(described_recipe)
     end
 
     let(:mcrouter_build_dir) { '/tmp/chef/cache/mcrouter' }
