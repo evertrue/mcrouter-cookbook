@@ -1,7 +1,7 @@
 name             'mcrouter'
 maintainer       'EverTrue, Inc.'
 maintainer_email 'devops@evertrue.com'
-license          'apache2'
+license          'Apache-2.0'
 description      'Installs/Configures mcrouter'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '2.0.2'
