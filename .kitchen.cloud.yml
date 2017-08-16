@@ -4,7 +4,8 @@ driver:
   region: us-east-1
   availability_zone: us-east-1b
   security_group_ids: ['ci-testing']
-  instance_type: c3.2xlarge
+  instance_type: c4.2xlarge
+  ebs_optimized: true
   interface: public
   tags:
     Type: test
