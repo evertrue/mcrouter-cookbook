@@ -57,7 +57,7 @@ describe 'mcrouter::default' do
 
   context 'cleans up unnecessary build directories' do
     %w(folly mcrouter).each do |build_dir|
-      describe file "/tmp/kitchen/cache/#{build_dir}" do
+      describe file "/tmp/kitchen/cache/#{build_dir}/#{build_dir}" do
         it { is_expected.to_not be_directory }
       end
     end
