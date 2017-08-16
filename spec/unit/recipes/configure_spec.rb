@@ -21,7 +21,7 @@ require 'spec_helper'
 describe 'mcrouter::configure' do
   context 'when all attributes are default, on Ubuntu 14.04,' do
     let(:chef_run) do
-      ChefSpec::SoloRunner.new.converge described_recipe
+      ChefSpec::ServerRunner.new.converge described_recipe
     end
 
     %w(

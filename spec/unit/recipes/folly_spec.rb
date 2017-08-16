@@ -21,7 +21,7 @@ require 'spec_helper'
 describe 'mcrouter::folly' do
   context 'When all attributes are default, on Ubuntu 14.04,' do
     let(:chef_run) do
-      runner = ChefSpec::SoloRunner.new file_cache_path: '/tmp/chef/cache'
+      runner = ChefSpec::ServerRunner.new file_cache_path: '/tmp/chef/cache'
       runner.converge(described_recipe)
     end
 

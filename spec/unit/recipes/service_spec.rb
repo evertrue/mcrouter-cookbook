@@ -21,7 +21,7 @@ require 'spec_helper'
 describe 'mcrouter::service' do
   context 'when all attributes are default, on Ubuntu 14.04,' do
     let(:chef_run) do
-      runner = ChefSpec::SoloRunner.new
+      runner = ChefSpec::ServerRunner.new
       runner.converge(described_recipe)
     end
 
