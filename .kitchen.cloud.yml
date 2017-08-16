@@ -20,7 +20,6 @@ provisioner:
 platforms:
   - name: ubuntu-14.04
     driver_config:
-      image_id: ami-9301c7f8
       tags:
         Name: mcrouter-default-ubuntu-1404
 
