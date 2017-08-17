@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: mcrouter
-# Recipe:: configure
+# Recipe:: service
 #
 # Copyright 2015 EverTrue, Inc.
 #

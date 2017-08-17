@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: mcrouter
-# Recipe:: default
+# Recipe:: folly
 #
 # Copyright 2015 EverTrue, Inc.
 #
