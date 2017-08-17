@@ -19,3 +19,4 @@ insert_final_newline = true
 ; 4 space indent
 [*.md]
 indent_size = 4
+trim_trailing_whitespace = false
