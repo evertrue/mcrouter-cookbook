@@ -1,8 +1,7 @@
-dist: trusty
+---
+dist: xenial
 sudo: false
 language: ruby
-rvm:
-- 2.4
 bundler_args: "--deployment --without vagrant"
 cache:
   directories:
@@ -10,7 +9,7 @@ cache:
 addons:
   apt:
     sources:
-    - chef-stable-precise
+    - chef-stable-trusty
     packages:
     - chefdk
 before_install:
