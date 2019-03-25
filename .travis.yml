@@ -20,9 +20,9 @@ install:
 jobs:
   include:
   - stage: verify
-    script: delivery local verify
+    script: chef exec delivery local verify
   - stage: acceptance
-    script: delivery local acceptance
+    script: chef exec delivery local acceptance
   # TODO: Add the Chef Server key for trubot (~/.chef/trubot.pem)
   # - stage: Publish to Supermarket
   #   script: echo "Uploading to Supermarket..."
