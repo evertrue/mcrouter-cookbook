@@ -1,9 +1,5 @@
 require 'chefspec'
 require 'chefspec/berkshelf'
-require 'coveralls'
-
-# Report coverage to Coveralls
-Coveralls.wear!
 
 # Generate a report
 ChefSpec::Coverage.start!

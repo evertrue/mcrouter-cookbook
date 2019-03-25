@@ -15,8 +15,7 @@ addons:
 before_install:
 - chef --version
 - eval "$(chef shell-init bash)"
-install:
-- chef gem install coveralls
+install: true
 jobs:
   include:
   - stage: verify
