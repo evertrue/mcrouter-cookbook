@@ -16,7 +16,7 @@ before_install:
 - chef --version
 - eval "$(chef shell-init bash)"
 install:
-- chef gem install coveralls -v '0.8.19'
+- chef gem install coveralls
 jobs:
   include:
   - stage: verify
