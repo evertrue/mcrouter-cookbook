@@ -20,13 +20,13 @@ include_recipe 'mcrouter::folly'
 
 execute 'build_mcrouter' do
   command 'autoreconf --install && ./configure && make'
-  cwd file_cache_path 'mcrouter', 'mcrouter'
+  cwd file_cache_path('mcrouter', 'mcrouter')
   action :nothing
 end
 
 execute 'install_mcrouter' do
   command 'make install'
-  cwd file_cache_path 'mcrouter', 'mcrouter'
+  cwd file_cache_path('mcrouter', 'mcrouter')
   creates '/usr/local/bin/mcrouter'
   action :nothing
 end
@@ -42,7 +42,7 @@ end
 # We have to use a "unique" resource name here because `ark` above already has
 # a directory resource with this path as its name.
 directory 'delete mcrouter build directory' do
-  path      file_cache_path 'mcrouter', 'mcrouter'
+  path      file_cache_path('mcrouter', 'mcrouter')
   recursive true
   action    :delete
 end

@@ -25,13 +25,13 @@ end
 
 execute 'build_folly' do
   command 'autoreconf -ivf && ./configure && make'
-  cwd file_cache_path 'folly', 'folly'
+  cwd file_cache_path('folly', 'folly')
   action :nothing
 end
 
 execute 'install_folly' do
   command 'make install'
-  cwd file_cache_path 'folly', 'folly'
+  cwd file_cache_path('folly', 'folly')
   creates '/usr/local/lib/libfolly.so'
   action :nothing
   notifies :run, 'execute[rebuild_ld_so_cache]', :immediately
@@ -48,7 +48,7 @@ end
 # We have to use a "unique" resource name here because `ark` above already has
 # a directory resource with this path as its name.
 directory 'delete folly build directory' do
-  path      file_cache_path 'folly', 'folly'
+  path      file_cache_path('folly', 'folly')
   action    :delete
   recursive true
 end
