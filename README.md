@@ -1,6 +1,6 @@
 # mcrouter
 [![Build Status](https://travis-ci.org/evertrue/mcrouter-cookbook.svg)](https://travis-ci.org/evertrue/mcrouter-cookbook)
-[![Coverage Status](https://coveralls.io/repos/evertrue/mcrouter-cookbook/badge.svg)](https://coveralls.io/r/evertrue/mcrouter-cookbook)
+[![Coverage Status](https://coveralls.io/repos/github/evertrue/mcrouter-cookbook/badge.svg?branch=master)](https://coveralls.io/github/evertrue/mcrouter-cookbook?branch=master)
 
 Install [mcrouter](https://github.com/facebook/mcrouter) and its dependencies, and provide mechanisms to configure and start mcrouter.
 
