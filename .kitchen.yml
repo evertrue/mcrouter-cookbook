@@ -8,6 +8,10 @@ driver:
 provisioner:
   name: chef_zero
 
+verifier:
+  name: inspec
+  deprecations_as_errors: true
+
 platforms:
   - name: ubuntu-16.04
   - name: ubuntu-18.04
