@@ -114,6 +114,11 @@
 * Initial release:
     - Builds & installs mcrouter
 
+[v2.0.1]: https://github.com/evertrue/mcrouter-cookbook/compare/v2.0.0...v2.0.1
+[v2.0.0]: https://github.com/evertrue/mcrouter-cookbook/compare/v1.0.1...v2.0.0
+[v1.0.1]: https://github.com/evertrue/mcrouter-cookbook/compare/v1.0.0...v1.0.1
+[v1.0.0]: https://github.com/evertrue/mcrouter-cookbook/compare/v0.2.2...v1.0.0
+[v0.2.2]: https://github.com/evertrue/mcrouter-cookbook/compare/v0.2.1...v0.2.2
 [v0.2.1]: https://github.com/evertrue/mcrouter-cookbook/compare/v0.2.0...v0.2.1
 [v0.2.0]: https://github.com/evertrue/mcrouter-cookbook/compare/v0.1.0...v0.2.0
 [v0.1.0]: https://github.com/evertrue/mcrouter-cookbook/compare/v0.0.1...v0.1.0
