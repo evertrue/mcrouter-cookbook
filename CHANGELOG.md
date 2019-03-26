@@ -1,15 +1,20 @@
 # CHANGELOG for mcrouter
 
+## [v3.0.1] (2019-03-26)
+
+* Fix CHANGELOG to accurately reflect v3.0.0
+
 ## [v3.0.0] (2019-03-26)
 
 ### Breaking changes:
 
-* Convert `node['mcrouter']['version']` to `node['mcrouter']['commit_hash']` given that FB has a weird release process.
-* Remove `node['folly']['version']` given that the mcrouter project specifies the folly commit to use. See [`FOLLY_COMMIT`](https://github.com/facebook/mcrouter/blob/release-36-0/mcrouter/FOLLY_COMMIT)
+* Drop source-based installation in favor of APT package installation
+* Drop support for Ubuntu 14.04
 * Switch to SystemD for the mcrouter service
 
 ### Changes:
-* Added support for Ubuntu 16.04, CentOS 7.2 and CentOS 7.3
+
+* Add support for Ubuntu 16.04 & Ubuntu 18.04
 
 ## [v2.0.2] (2015-12-15)
 
@@ -114,6 +119,7 @@
 * Initial release:
     - Builds & installs mcrouter
 
+[v3.0.1]: https://github.com/evertrue/mcrouter-cookbook/compare/v3.0.0...v3.0.1
 [v3.0.0]: https://github.com/evertrue/mcrouter-cookbook/compare/v2.0.2...v3.0.0
 [v2.0.1]: https://github.com/evertrue/mcrouter-cookbook/compare/v2.0.0...v2.0.1
 [v2.0.0]: https://github.com/evertrue/mcrouter-cookbook/compare/v1.0.1...v2.0.0
