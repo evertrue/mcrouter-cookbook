@@ -1,6 +1,6 @@
 # CHANGELOG for mcrouter
 
-## Unreleased
+## [v3.0.0] (2019-03-26)
 
 ### Breaking changes:
 
@@ -114,6 +114,7 @@
 * Initial release:
     - Builds & installs mcrouter
 
+[v3.0.0]: https://github.com/evertrue/mcrouter-cookbook/compare/v2.0.2...v3.0.0
 [v2.0.1]: https://github.com/evertrue/mcrouter-cookbook/compare/v2.0.0...v2.0.1
 [v2.0.0]: https://github.com/evertrue/mcrouter-cookbook/compare/v1.0.1...v2.0.0
 [v1.0.1]: https://github.com/evertrue/mcrouter-cookbook/compare/v1.0.0...v1.0.1
