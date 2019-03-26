@@ -2,7 +2,7 @@
 dist: xenial
 sudo: false
 language: ruby
-if: "((tag =~ ^v) AND (branch = master)) OR type = pull_request"
+if: (type = pull_request) OR (tag IS present)
 cache:
   directories:
   - "$HOME/.berkshelf"
