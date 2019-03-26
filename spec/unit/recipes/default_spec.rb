@@ -19,33 +19,14 @@
 require 'spec_helper'
 
 describe 'mcrouter::default' do
-  context 'when all attributes are default, on Ubuntu 14.04,' do
+  context 'when all attributes are default, on Ubuntu 18.04,' do
     let(:chef_run) do
-      ChefSpec::ServerRunner.new.converge described_recipe
+      ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '18.04')
+                            .converge described_recipe
     end
 
-    it 'ensures apt is up-to-date' do
-      expect(chef_run).to include_recipe 'apt::default'
-    end
-
-    it 'includes ark' do
-      expect(chef_run).to include_recipe 'ark::default'
-    end
-
-    it 'installs and starts memcached' do
-      expect(chef_run).to include_recipe 'memcached::default'
-    end
-
-    it 'installs mcrouter & its dependencies' do
-      expect(chef_run).to include_recipe 'mcrouter::install'
-    end
-
-    it 'configures mcrouter' do
-      expect(chef_run).to include_recipe 'mcrouter::configure'
-    end
-
-    it 'sets up the mcrouter service' do
-      expect(chef_run).to include_recipe 'mcrouter::configure'
+    it 'converges successfully' do
+      expect { chef_run }.to_not raise_error
     end
   end
 end

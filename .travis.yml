@@ -1,5 +1,5 @@
 ---
-dist: trusty
+dist: xenial
 sudo: false
 language: ruby
 if: "((tag =~ ^v) AND (branch = master)) OR type = pull_request"

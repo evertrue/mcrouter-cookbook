@@ -1,5 +1,16 @@
 # CHANGELOG for mcrouter
 
+## Unreleased
+
+### Breaking changes:
+
+* Convert `node['mcrouter']['version']` to `node['mcrouter']['commit_hash']` given that FB has a weird release process.
+* Remove `node['folly']['version']` given that the mcrouter project specifies the folly commit to use. See [`FOLLY_COMMIT`](https://github.com/facebook/mcrouter/blob/release-36-0/mcrouter/FOLLY_COMMIT)
+* Switch to SystemD for the mcrouter service
+
+### Changes:
+* Added support for Ubuntu 16.04, CentOS 7.2 and CentOS 7.3
+
 ## [v2.0.2] (2015-12-15)
 
 ### Fixes:
